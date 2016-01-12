@@ -88,7 +88,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
                 .colorRes(android.R.color.white)
                 .actionBarSize());
         TextView title3 = (TextView) tab3.findViewById(R.id.title);
-        title3.setText(res.getText(R.string.activity_register_tab_name));
+        title3.setText("登记");
         title3.setTextColor(Color.rgb(255, 255, 255));
 
 
@@ -112,7 +112,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
         spec = tabHost.newTabSpec("Register")
                 .setIndicator(tab3)
-                .setContent(new Intent(this, RegisterActivity.class));
+                .setContent(new Intent(this, BookingTicketActivity.class));
 
         tabHost.addTab(spec);
 

@@ -37,7 +37,7 @@
             >
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".BookingTicketActivity"
             android:label="@string/app_name"
             >
         </activity>
