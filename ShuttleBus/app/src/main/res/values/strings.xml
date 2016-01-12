@@ -20,4 +20,9 @@
     <string name="check_in">登記上車</string>
     <string name="error">Error</string>
     <string name="user_type">用户类型</string>
+    <string name="oocl">OOCL</string>
+    <string name="shuttle_bus">Shuttle Bus</string>
+
+    <string name="sweep_code_up_bus">扫码上车</string>
+    <string name="view_bus_ticket">查看Ticket</string>
 </resources>
