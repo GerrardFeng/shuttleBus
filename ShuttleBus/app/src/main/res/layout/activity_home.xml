@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/id_swipe_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/id_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--<com.joanzapata.iconify.widget.IconTextView-->
+        <!--android:text="I {fa-heart-o} to {fa-code} on {fa-android}"-->
+        <!--android:shadowColor="#22000000"-->
+        <!--android:shadowDx="3"-->
+        <!--android:shadowDy="3"-->
+        <!--android:shadowRadius="1"-->
+        <!--android:textSize="40sp"-->
+        <!--android:textColor="#ffffff"/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新市花园"
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:id="@+id/bus_location"
+        android:layout_above="@+id/textViewOne"
+        android:layout_alignRight="@+id/textViewOne"
+        android:layout_alignEnd="@+id/textViewOne" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="预计到达海怡湾畔为"
+        android:id="@+id/textViewOne"
+        android:textColor="#ffffff"
+        android:layout_marginRight="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_above="@+id/arrive_time"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9号线当前位置"
+        android:textColor="#ffffff"
+        android:id="@+id/textViewTow"
+        android:layout_above="@+id/bus_location"
+        android:layout_alignRight="@+id/bus_location"
+        android:layout_alignEnd="@+id/bus_location" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8:15AM"
+        android:textSize="40dp"
+        android:textColor="#ffffff"
+        android:id="@+id/arrive_time"
+        android:layout_marginBottom="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textViewTow"
+        android:layout_alignEnd="@+id/textViewTow" />
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="新市花园"-->
+    <!--android:textSize="20dp"-->
+    <!--android:id="@+id/bus_location"-->
+    <!--android:layout_marginBottom="200dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignRight="@+id/textViewTow"-->
+    <!--android:layout_alignEnd="@+id/textViewTow" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="预计到达海怡湾畔为"-->
+        <!--android:id="@+id/textViewOne"-->
+        <!--android:layout_alignTop="@+id/textViewTow"-->
+        <!--android:layout_alignLeft="@+id/arrive_time"-->
+        <!--android:layout_alignStart="@+id/arrive_time" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="9号"-->
+        <!--android:textSize="40dp"-->
+        <!--android:id="@+id/textViewTow"-->
+        <!--android:layout_marginLeft="60dp"-->
+        <!--android:layout_marginStart="60dp"-->
+        <!--android:layout_above="@+id/bus_location"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="8:15AM"-->
+        <!--android:textSize="40dp"-->
+        <!--android:id="@+id/arrive_time"-->
+        <!--android:layout_alignBottom="@+id/bus_location"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginEnd="20dp" />-->
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/bus_location"-->
+        <!--android:textSize="20dp"-->
+        <!--android:id="@+id/bus_location"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginLeft="32dp"-->
+        <!--android:layout_marginStart="32dp" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="9号车预计到达海怡湾畔时间为"-->
+        <!--android:id="@+id/textViewOne"-->
+        <!--android:layout_toRightOf="@+id/bus_location"-->
+        <!--android:layout_toEndOf="@+id/bus_location"-->
+        <!--android:layout_alignBaseline="@+id/bus_location"-->
+        <!--android:layout_centerVertical="true" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="10:00"-->
+        <!--android:textSize="40dp"-->
+        <!--android:id="@+id/textViewTow"-->
+        <!--android:layout_below="@+id/textViewOne"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginLeft="32dp"-->
+        <!--android:layout_marginStart="32dp" />-->
+
+
+</RelativeLayout>
