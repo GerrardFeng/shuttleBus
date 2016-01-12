@@ -124,7 +124,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         // me
         spec = tabHost.newTabSpec("UseInfo")
                 .setIndicator(useInfoTab)
-                .setContent(new Intent(this, SearchActivity.class));
+                .setContent(new Intent(this, UserInfoActivity.class));
         tabHost.addTab(spec);
 
         TabWidget tw = tabHost.getTabWidget();

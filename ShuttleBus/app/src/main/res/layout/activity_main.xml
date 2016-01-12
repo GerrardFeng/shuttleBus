@@ -12,4 +12,17 @@
         android:layout_marginTop="30dp"
         android:text="Open camera" />
 
+    <Button
+        android:id="@+id/showTicket"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Show Ticket" />
+
+    <Button
+        android:id="@+id/showTicketLists"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Tickets" />
 </LinearLayout>

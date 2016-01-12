@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#be573f">
+
+   <LinearLayout
+        android:id="@+id/ticket1"
+        android:layout_width="fill_parent"
+        android:layout_weight="20"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="20dp">
+        </LinearLayout>
+
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="15dp"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="#be573f"
+                android:text="OOCL" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="15dp"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:text="Shuttle Bus" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/nameOfFirstTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="19sp"
+            android:text="姓名 : Elsa"/>
+
+        <TextView
+            android:id="@+id/routeOfFirstTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="19sp"
+            android:text="路线 : 上班No.1"/>
+
+        <TextView
+            android:id="@+id/stopOfFirstTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="19sp"
+            android:text="站点 : 海怡湾畔"/>
+
+        <TextView
+            android:id="@+id/typeOfFirstTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="19sp"
+            android:text="类型 : 长期预定"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </LinearLayout>
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/checkInButton"
+        android:layout_width="196dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        app:cpb_cornerRadius="5dp"
+        android:textSize="18sp"
+        app:cpb_textComplete="@string/check_in_success"
+        app:cpb_textError="@string/error"
+        app:cpb_textIdle="@string/check_in"/>
+
+
+
+</LinearLayout>
