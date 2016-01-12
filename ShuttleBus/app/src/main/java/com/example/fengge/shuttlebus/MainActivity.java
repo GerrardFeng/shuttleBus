@@ -91,6 +91,17 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         title3.setText(res.getText(R.string.activity_register_tab_name));
         title3.setTextColor(Color.rgb(255, 255, 255));
 
+
+        LinearLayout useInfoTab = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.action_item, null);
+        ImageView userIcon = (ImageView) useInfoTab.findViewById(R.id.icon);
+        userIcon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_user)
+                .colorRes(android.R.color.white)
+                .actionBarSize());
+        TextView userTitle = (TextView) useInfoTab.findViewById(R.id.title);
+        userTitle.setText(res.getText(R.string.activity_user_tab_name));
+        userTitle.setTextColor(Color.rgb(255, 255, 255));
+
+
         // 加载TabSpec
         tabHost.setup(getLocalActivityManager());
 
@@ -99,15 +110,21 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
                 .setContent(new Intent(this, HomeActivity.class));
         tabHost.addTab(spec);
 
+        spec = tabHost.newTabSpec("Register")
+                .setIndicator(tab3)
+                .setContent(new Intent(this, RegisterActivity.class));
+
+        tabHost.addTab(spec);
+
         spec = tabHost.newTabSpec("Search")
                 .setIndicator(tab2)
                 .setContent(new Intent(this, SearchActivity.class));
         tabHost.addTab(spec);
 
-        spec = tabHost.newTabSpec("Register")
-                .setIndicator(tab3)
-                .setContent(new Intent(this, RegisterActivity.class));
-
+        // me
+        spec = tabHost.newTabSpec("UseInfo")
+                .setIndicator(useInfoTab)
+                .setContent(new Intent(this, SearchActivity.class));
         tabHost.addTab(spec);
 
         TabWidget tw = tabHost.getTabWidget();

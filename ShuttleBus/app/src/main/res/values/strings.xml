@@ -14,5 +14,6 @@
     <string name="activity_home_tab_name">主页</string>
     <string name="activity_search_tab_name">搜索</string>
     <string name="activity_register_tab_name">注册</string>
+    <string name="activity_user_tab_name">我的</string>
 
 </resources>
