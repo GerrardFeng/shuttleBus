@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <ImageButton
+            android:id="@+id/img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+        <TextView
+            android:id="@+id/account"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="10dip"
+            android:gravity="bottom"
+            android:text="@string/account_name"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/account_userName"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_below="@id/account"
+            android:layout_marginLeft="12dip"
+            android:layout_marginRight="10dip" />
+
+        <TextView
+            android:id="@+id/tv_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_below="@+id/account_userName"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="10dip"
+            android:gravity="bottom"
+            android:text="@string/account_pwd"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/account__pwd"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_below="@id/tv_pwd"
+            android:layout_marginLeft="12dip"
+            android:layout_marginRight="10dip"
+            android:maxLines="200"
+            android:password="true"
+            android:scrollHorizontally="true" />
+
+        <CheckBox
+            android:id="@+id/cb_mima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account__pwd"
+            android:layout_marginLeft="12dip"
+            android:text="@string/remember_pwd"
+            android:textColor="#000000" />
+
+        <CheckBox
+            android:id="@+id/cb_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cb_mima"
+            android:layout_marginLeft="12dip"
+            android:text="@string/auto_login"
+            android:textColor="#000000" />
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="80dip"
+            android:layout_height="50dip"
+            android:layout_below="@id/account__pwd"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/cb_auto"
+            android:layout_marginRight="10dip"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="#000000"
+            android:textSize="18sp"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
