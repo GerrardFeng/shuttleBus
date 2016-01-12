@@ -1,51 +1,116 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.luju.myapplicationtest.Index">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
 
-    <TableLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="18.26"
+        android:orientation="vertical">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <TextView
-                android:layout_width="0dip"
-                android:layout_height="50dip"
-                android:text="@string/bus_point"
-                android:gravity="center"
-                android:layout_weight="1"
-                 />
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            >
+            android:orientation="horizontal" >
+
             <TextView
-                android:layout_width="0dip"
-                android:layout_height="50dip"
+                android:id="@+id/stop"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
                 android:text="@string/bus_point"
-                android:gravity="center"
-                android:id="@+id/textView4"
-                android:layout_weight="1"
+                android:textSize="18dp"
+                android:textAlignment="center"
                 />
-            <EditText
-                android:layout_width="0dp"
+
+            <AutoCompleteTextView
+                android:id="@+id/on_stop_auto_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-        </TableRow>
-    </TableLayout>
-</RelativeLayout>
+                android:completionThreshold="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="@string/bus_line"
+                android:textSize="18dp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/on_route_auto_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioGroup
+                android:id="@+id/on_timeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/on_temporary"
+                android:orientation="vertical" >
+
+                <RadioButton
+                    android:id="@+id/on_temporary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="临时预定(有效期为当天)" />
+
+                <RadioButton
+                    android:id="@+id/on_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="长期预定(长期有效)" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/on_back"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:background="#be573f"
+                android:text="返回"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/on_gen_ticket"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="#be573f"
+                android:text="生成Ticket"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.style.URLSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,13 +37,23 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private TextView goToWorkText;
 
     private TextView afterWorkText;
+    private AutoCompleteTextView routeAutoCompleteTextView;
+    private AutoCompleteTextView stopAutoCompleteTextView;
+    float x1 = 0;
+    float x2 = 0;
+    float y1 = 0;
+    float y2 = 0;
 
+    // TODO mock data
+    private String[] routeAutoStrings = new String[] { "123", "321", "133" };
+    private String[] stopAutoStrings = new String[] { "123", "321", "133" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         initViews();
         fragmentManager = getFragmentManager();
+        setTabSelection(1);
         setTabSelection(0);
 //
 //
@@ -51,7 +63,61 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 //        Button submitBtn = (Button)findViewById(R.id.submit_regist);
 //        submitBtn.setOnClickListener(new submitRegisterListener());
 
+//        initOnDutyView();
+//        initOffDutyView();
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // 继承了Activity的onTouchEvent方法，直接监听点击事件
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            // 当手指按下的时候
+            x1 = event.getX();
+            y1 = event.getY();
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            // 当手指离开的时候
+            x2 = event.getX();
+            y2 = event.getY();
+            if (y1 - y2 > 50) {
+                Toast.makeText(RegisterActivity.this, "向上滑", Toast.LENGTH_SHORT).show();
+            } else if (y2 - y1 > 50) {
+                Toast.makeText(RegisterActivity.this, "向下滑", Toast.LENGTH_SHORT).show();
+            } else if (x1 - x2 > 50) {
+                Toast.makeText(RegisterActivity.this, "向左滑", Toast.LENGTH_SHORT).show();
+            } else if (x2 - x1 > 50) {
+                Toast.makeText(RegisterActivity.this, "向右滑", Toast.LENGTH_SHORT).show();
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public void initOnDutyView() {
+        routeAutoCompleteTextView = (AutoCompleteTextView) this.findViewById(R.id.on_route_auto_text);
+        ArrayAdapter<String> routeAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_dropdown_item_1line, routeAutoStrings);
+        routeAutoCompleteTextView.setAdapter(routeAdapter);
+
+        stopAutoCompleteTextView = (AutoCompleteTextView) this.findViewById(R.id.on_stop_auto_text);
+        ArrayAdapter<String> stopAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_dropdown_item_1line, stopAutoStrings);
+        stopAutoCompleteTextView.setAdapter(stopAdapter);
+    }
+
+    public void initOffDutyView() {
+        routeAutoCompleteTextView = (AutoCompleteTextView) this.findViewById(R.id.off_route_auto_text);
+        ArrayAdapter<String> routeAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_dropdown_item_1line, routeAutoStrings);
+        routeAutoCompleteTextView.setAdapter(routeAdapter);
+
+        stopAutoCompleteTextView = (AutoCompleteTextView) this.findViewById(R.id.off_stop_auto_text);
+        ArrayAdapter<String> stopAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_dropdown_item_1line, stopAutoStrings);
+        stopAutoCompleteTextView.setAdapter(stopAdapter);
+    }
+
+    public String[] getAutoDate(String str) {
+        return new String[] { "123", "321", "133" };
     }
 
     private void initViews() {
@@ -69,9 +135,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.go_work_layout:
                 setTabSelection(0);
+                initOnDutyView();
                 break;
             case R.id.after_work_layout:
                 setTabSelection(1);
+                initOffDutyView();
                 break;
             default:
                 break;
@@ -100,6 +168,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
                     transaction.show(registerOnFragment);
+                    initOnDutyView();
                 }
 
                 break;

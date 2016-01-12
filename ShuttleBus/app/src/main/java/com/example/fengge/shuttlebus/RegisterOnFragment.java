@@ -28,7 +28,7 @@ public class RegisterOnFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int id = v.getId();
-//        ((RegisterActivity) getActivity()).registerOnStop();
-//        ((RegisterActivity) getActivity()).registerOffStop();
+        ((RegisterActivity) getActivity()).initOnDutyView();
+        ((RegisterActivity) getActivity()).initOffDutyView();
     }
 }

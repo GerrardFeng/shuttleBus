@@ -13,7 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 
-public class BookingTicketActivity extends Activity{
+public class BookingTicketActivity extends Activity {
 
 	private GestureDetector mGestureDetector;
 	private OnGestureListener myOnGestureListener;
@@ -31,7 +31,6 @@ public class BookingTicketActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.booking_ticket);
 		initView();
 //		initEvent();
@@ -73,26 +72,5 @@ public class BookingTicketActivity extends Activity{
 				android.R.layout.simple_dropdown_item_1line, stopAutoStrings);
 		stopAutoCompleteTextView.setAdapter(stopAdapter);
 	}
-
-//	private void initEvent() {
-//		myOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
-//			@Override
-//			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//				if (e1.getX() - e2.getX() > 0) {
-//					Toast.makeText(getApplicationContext(), "left", Toast.LENGTH_LONG).show();
-//				} else {
-//					Toast.makeText(getApplicationContext(), "right", Toast.LENGTH_LONG).show();
-//				}
-//				return true;
-//			}
-//		};
-//		mGestureDetector = new GestureDetector(this, myOnGestureListener);
-//
-//	}
-
-//	@Override
-//	public boolean onTouch(View arg0, MotionEvent arg1) {
-//		return mGestureDetector.onTouchEvent(arg1);
-//	}
 
 }

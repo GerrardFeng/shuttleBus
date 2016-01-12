@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#42778498"
     >
 
     <LinearLayout
@@ -14,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#7cdbff">
+            android:background="#42778498">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,30 +78,10 @@
         <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#42778498">
         </FrameLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <com.cengalabs.flatui.views.FlatButton
-            android:id="@+id/submit_regist"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:text="@string/complete"
-            android:layout_weight="1"
-            android:layout_margin="3dp"
-            flatui:fl_textAppearance="fl_light"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            flatui:fl_theme="@array/sky"/>
-
-    </LinearLayout>
-
-
 
 </LinearLayout>
