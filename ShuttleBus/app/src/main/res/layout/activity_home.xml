@@ -59,6 +59,7 @@
                 android:layout_weight="1"
                 />
             <Button
+                android:id="@+id/scan_barcode_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sweep_code_up_bus"
@@ -82,6 +83,7 @@
                 android:layout_weight="1"
                 />
             <Button
+                android:id="@+id/viewBusTicket"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/view_bus_ticket"
@@ -95,5 +97,10 @@
 
         </TableRow>
     </TableLayout>
-
+    <TextView
+        android:id="@+id/tv_scan_result"
+        android:layout_width="fill_parent"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
 </LinearLayout>

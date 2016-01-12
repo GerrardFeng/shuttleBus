@@ -34,7 +34,6 @@ public class TicketListActivity extends Activity {
         List<HashMap<String, String>> datas = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> item = new HashMap<String, String>();
         item.put("ticketInfo", "姓名：test 线路： test 站点： test 类型： test");
-        item.put("ticketInfo", "姓名：test1 线路： test1 站点： test1 类型： test1");
         datas.add(item);
         return datas;
     }

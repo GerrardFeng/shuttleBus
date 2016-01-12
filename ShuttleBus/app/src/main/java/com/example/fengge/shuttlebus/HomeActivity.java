@@ -1,31 +1,20 @@
 package com.example.fengge.shuttlebus;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.example.fengge.shuttlebus.R;
+import com.zxing.activity.CaptureActivity;
 
 public class HomeActivity extends Activity {
 
-
+    TextView resultTextView;
 
     @Override
     @SuppressLint("InlinedApi")
@@ -34,7 +23,40 @@ public class HomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.activity_home);
 
+        resultTextView = (TextView) this.findViewById(R.id.tv_scan_result);
 
+        Button showTicket = (Button)findViewById(R.id.viewBusTicket);
+        Button scanBarcode = (Button)findViewById(R.id.scan_barcode_btn);
+        showTicket.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent showTicketIntent = new Intent(HomeActivity.this, TicketActivity.class);
+                startActivity(showTicketIntent);
+            }
+        });
+
+        scanBarcode.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent scanBarcodeIntent = new Intent(HomeActivity.this, CaptureActivity.class);
+                startActivity(scanBarcodeIntent);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            resultTextView.setText(scanResult);
+        }
     }
 
 }
