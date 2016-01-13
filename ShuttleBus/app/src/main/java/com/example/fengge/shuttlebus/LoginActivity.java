@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,20 +34,30 @@ public class LoginActivity extends Activity {
     private EditText pwdEdit;
     private ProgressDialog mProgress;
 
+
+    CheckBox rememberPwdCb;
+    CheckBox autoLoginCb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        BusUser busUser = SharePreferenceHelper.getUser(LoginActivity.this);
-        if(busUser != null){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+        if (SharePreferenceHelper.isAutoLogin(LoginActivity.this)) {
+            processAutoLogin();
+            return;
         }
-
         userEdit = (EditText)findViewById(R.id.account_userName);
         pwdEdit = (EditText)findViewById(R.id.account_pwd);
+
+        if (SharePreferenceHelper.isRememberPwd(LoginActivity.this)) {
+            BusUser busUser = SharePreferenceHelper.getUser(LoginActivity.this);
+            Log.v("Hustzw", "set user info");
+            userEdit.setText(busUser.getDomainId());
+            pwdEdit.setText(SharePreferenceHelper.getPwd(LoginActivity.this));
+            ((CheckBox)findViewById(R.id.remember_pwd)).setChecked(true);
+            Log.v("Hustzw", "set user info" + busUser.getDomainId() + ":" + busUser.getPassword());
+        }
 
         Button loginBtn = (Button)findViewById(R.id.btn_login);
         loginBtn.setOnClickListener(new loginButtonListener());
@@ -66,6 +78,7 @@ public class LoginActivity extends Activity {
             mProgress.setMessage(getResources().getString(R.string.please_wait));
             mProgress.show();
             doLogin(domainId, pwd);
+            processSettingForLogin();
         }
     }
 
@@ -115,6 +128,31 @@ public class LoginActivity extends Activity {
             tTips = Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT);
         }
         tTips.show();
+    }
+
+
+    private void processSettingForLogin() {
+        rememberPwdCb = (CheckBox)findViewById(R.id.remember_pwd);
+        autoLoginCb = (CheckBox)findViewById(R.id.login_auto);
+        if (rememberPwdCb.isChecked()) {
+            Log.v("Hustzw", "checked remember pwd");
+//TODO　
+            SharePreferenceHelper.savePwd(LoginActivity.this, pwdEdit.getText().toString());
+            SharePreferenceHelper.setRememberPwd(LoginActivity.this, true);
+        }
+        if (autoLoginCb.isChecked()) {
+            SharePreferenceHelper.setAutoLogin(LoginActivity.this, true);
+            Log.v("Hustzw", "checked autoLogin");
+        }
+    }
+
+    private void processAutoLogin () {
+        BusUser busUser = SharePreferenceHelper.getUser(LoginActivity.this);
+        if(busUser != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Log.v("Hustzw", "autoLogin");
+            startActivity(intent);
+        }
     }
 
 
