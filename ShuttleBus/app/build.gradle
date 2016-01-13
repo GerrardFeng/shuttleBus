@@ -50,4 +50,5 @@ dependencies {
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
 
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.alibaba:fastjson:latest.integration'
 }
