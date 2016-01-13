@@ -51,4 +51,5 @@
     <string name="route_type">上/下</string>
     <string name="bus_number">路线</string>
     <string name="vacant_site">空位</string>
+    <string name="show_tickets">乘车凭证</string>
 </resources>

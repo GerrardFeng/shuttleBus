@@ -2,8 +2,10 @@ package com.example.fengge.shuttlebus;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,20 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ShuttleConstants;
+import com.example.dto.TicketResult;
+import com.example.jason.FastJasonTools;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.utils.HttpUtil;
+import com.utils.PropertiesUtil;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +48,45 @@ public class TicketListActivity extends Activity {
         setContentView(R.layout.ticket_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        String userId = "123";
+        Log.v("hustzw", "ONCLICK");
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put(ShuttleConstants.USER_ID, userId);
+
+        HttpUtil.get(PropertiesUtil.getPropertiesURL(TicketListActivity.this, ShuttleConstants.URL_GET_TICKETS), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.v("hustzw", "coming");
+                List<TicketResult> allTickets = FastJasonTools.getParseBeanArray(response.toString(), TicketResult.class);
+                initListViewEvent(allTickets);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                showTips(R.string.server_not_avaiable, false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+
         List<HashMap<String, String>> ticketData = initTicketData();
-        initListViewEvent(ticketData);
+    }
 
-
+    private void showTips(int msg, boolean isLong) {
+        Toast tTips;
+        if (isLong) {
+            tTips = Toast.makeText(TicketListActivity.this, msg, Toast.LENGTH_LONG);
+        } else {
+            tTips = Toast.makeText(TicketListActivity.this, msg, Toast.LENGTH_SHORT);
+        }
+        tTips.show();
     }
 
     private List<HashMap<String, String>> initTicketData() {
@@ -49,14 +100,16 @@ public class TicketListActivity extends Activity {
     }
 
 
-    private void initListViewEvent(List<HashMap<String, String>> ticketData) {
+    private void initListViewEvent(List<TicketResult> allTickets) {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ticketListLayout);
 
-        for(HashMap<String, String> ticket : ticketData) {
+        for(TicketResult ticket : allTickets) {
             TextView textView1 = new TextView(this);
             textView1.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView1.setText(ticket.get("ticketInfo"));
+            textView1.setText("路线： " + ticket.getRoute().toString() + "\n" +
+                    "站点： " + ticket.getStation().toString() + "\n" +
+                    "类型： " + ticket.getType().toString());
             linearLayout.addView(textView1);
         }
     }
