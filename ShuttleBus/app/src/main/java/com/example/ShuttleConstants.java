@@ -15,8 +15,6 @@ public class ShuttleConstants {
 
     public static String URL_GET_TICKETS = "URL_GET_TICKETS";
 
-    public static String USER_ID = "userid";
-
     public static String LOGIN_SUCCESS = "success";
 
     public static String USER_ID = "userid";
