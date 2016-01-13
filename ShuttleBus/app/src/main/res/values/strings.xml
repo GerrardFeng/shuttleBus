@@ -10,6 +10,9 @@
 
     <string name="login">登录</string>
 
+    <string name="domain_id">DomainID</string>
+    <string name="pwd">Password</string>
+
 
     <string name="activity_home_tab_name">主页</string>
     <string name="activity_search_tab_name">搜索</string>
@@ -34,4 +37,8 @@
     <string name="bus_line">路线：</string>
     <string name="type">类型：</string>
 
+
+
+    <string name="account_error">账号密码不正确</string>
+    <string name="server_not_avaiable">服务器忙，请稍后再试</string>
 </resources>

@@ -42,7 +42,7 @@ public class HttpUtil {
 	}
 
 	public static void post(String url, JsonHttpResponseHandler res) {
-		client.get(url, res);
+		client.post(url, res);
 	}
 
 	public static void post(String url, RequestParams params, JsonHttpResponseHandler res) {

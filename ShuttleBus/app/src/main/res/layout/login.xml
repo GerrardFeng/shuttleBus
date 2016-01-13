@@ -31,7 +31,10 @@
             android:layout_height="40dip"
             android:layout_below="@id/account"
             android:layout_marginLeft="12dip"
-            android:layout_marginRight="10dip" />
+            android:layout_marginRight="10dip"
+            android:singleLine="true"
+            android:hint="@string/domain_id"
+            />
 
         <TextView
             android:id="@+id/tv_pwd"
@@ -54,7 +57,10 @@
             android:layout_marginRight="10dip"
             android:maxLines="200"
             android:password="true"
-            android:scrollHorizontally="true" />
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:hint="@string/pwd"
+            />
 
         <CheckBox
             android:id="@+id/cb_mima"

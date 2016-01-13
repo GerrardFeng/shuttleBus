@@ -6,15 +6,17 @@ import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ExpandableListView;
+import android.widget.SimpleAdapter;
 import java.util.Calendar;
 
 public class SearchActivity extends Activity {
 
-    private Calendar calendar;
-    private int year, month, day;
-    private EditText dateText;
+    private Button dateSelectBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,39 +24,49 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        dateText = (EditText)findViewById(R.id.search_key);
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        dateSelectBtn = (Button)findViewById(R.id.select_date_btn);
+        dateSelectBtn.setOnClickListener(new DateSelectListener());
+        Calendar calendar = Calendar.getInstance();
+        dateSelectBtn.setText(getDateString(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month + 1, day);
+
+        ExpandableListView expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);
+        ExpandableAdapter adapter = new ExpandableAdapter(SearchActivity.this);
+
+        expandableListView.setAdapter(adapter);
+
     }
 
 
-    @SuppressWarnings("deprecation")
-    public void setDate(View view) {
-        showDialog(999);
-    }
+    class DateSelectListener implements View.OnClickListener{
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            return new DatePickerDialog(this, myDateListener, year, month, day);
-        }
-        return null;
-    }
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            showDate(arg1, arg2+1, arg3);
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            new DatePickerDialog(SearchActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    dateSelectBtn.setText(getDateString(year, monthOfYear, dayOfMonth + 1));
+
+                    refreshDataForListView();
+
+                }
+            },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ).show();
 
         }
-    };
-
-    private void showDate(int year, int month, int day) {
-        dateText.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
     }
+
+
+    private String getDateString(int year, int month, int day) {
+        return new StringBuilder().append(month).append("/").append(day).append("/").append(year).toString();
+    }
+
+    private void refreshDataForListView() {
+
+    }
+
+
+
 
 }
