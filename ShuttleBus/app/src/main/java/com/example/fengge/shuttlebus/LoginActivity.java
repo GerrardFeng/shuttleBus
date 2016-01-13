@@ -38,6 +38,12 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        BusUser busUser = SharePreferenceHelper.getUser(LoginActivity.this);
+        if(busUser != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
         userEdit = (EditText)findViewById(R.id.account_userName);
         pwdEdit = (EditText)findViewById(R.id.account_pwd);
 
@@ -73,7 +79,7 @@ public class LoginActivity extends Activity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
                 super.onSuccess(statusCode, headers, object);
                 LoginAuthenticationResult currentUser = FastJasonTools.getParseBean(object.toString(), LoginAuthenticationResult.class);
-//                SharePreferenceHelper.saveUser(LoginActivity.this, currentUser.getUser());
+                SharePreferenceHelper.saveUser(LoginActivity.this, currentUser.getUser());
                 if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(currentUser.getStatus())) {
                     Intent loginSuceed = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(loginSuceed);
@@ -88,6 +94,11 @@ public class LoginActivity extends Activity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(R.string.server_not_avaiable, false);
                 mProgress.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
     }

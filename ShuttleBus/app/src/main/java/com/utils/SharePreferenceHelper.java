@@ -2,24 +2,22 @@ package com.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.example.dto.BusUser;
 import com.google.gson.Gson;
 
 public class SharePreferenceHelper {
 		private static final String PREF_USER = "default_user";
-		public static boolean saveUser(Context context, BusUser user){
-			SharedPreferences setting = PreferenceManager.getDefaultSharedPreferences(context);
+		public static void saveUser(Context context, BusUser user){
+			SharedPreferences setting = context.getSharedPreferences("config",context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = setting.edit();
 			editor.putString(PREF_USER, new Gson().toJson(user));
-			return editor.commit();
+			editor.commit();
 		}
 		
 	    public static BusUser getUser(Context context) {
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-			String userJson = settings.getString(PREF_USER, "");
-			BusUser user = new Gson().fromJson(userJson, BusUser.class);
-			return user;
+			SharedPreferences setting = context.getSharedPreferences("config", context.MODE_PRIVATE);
+			String userJson = setting.getString(PREF_USER, "").toString();
+			return new Gson().fromJson(userJson, BusUser.class);
 		}
 }
