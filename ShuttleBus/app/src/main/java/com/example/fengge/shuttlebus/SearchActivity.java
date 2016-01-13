@@ -60,6 +60,7 @@ public class SearchActivity extends Activity {
         List<HashMap<String, Object>> dataList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> item = new HashMap<String, Object>();
         item.put("dateIcon", R.drawable.date);
+        item.put("name", SourceType.TIME.getName());
         item.put("dateTime", (new StringBuilder().append(year).append(".").append(month).append(".").append(day)).toString());
         item.put("arrowIcon", R.drawable.arrow);
         dataList.add(item);
@@ -68,8 +69,8 @@ public class SearchActivity extends Activity {
 
     private void initModifyDateListViewEvent(List<HashMap<String, Object>> dateData) {
         ListView listView = (ListView) this.findViewById(R.id.modify_date_time_bt);
-        SimpleAdapter adapter = new SimpleAdapter(this, dateData, R.layout.modify_date_item, new String[] { "dateIcon", "dateTime", "arrowIcon" },
-                new int[] { R.id.route1Icon, R.id.modify_date_time, R.id.search_arrowIcon});
+        SimpleAdapter adapter = new SimpleAdapter(this, dateData, R.layout.modify_date_item, new String[] { "dateIcon", "name", "dateTime", "arrowIcon" },
+                new int[] { R.id.route1Icon, R.id.name, R.id.modify_date_time, R.id.search_arrowIcon});
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new ItemClickListener());
     }

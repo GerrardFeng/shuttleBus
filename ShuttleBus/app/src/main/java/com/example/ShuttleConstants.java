@@ -29,4 +29,12 @@ public class ShuttleConstants {
     public static String SOURCE_TYPE = "SOURCE_TYPE";
 
     public static String ROUTE_VALUE = "value";
+
+    public static String SCAN_CODE = "SCAN_CODE";
+
+    public static String ROUTE_ID = "routeid";
+
+    public static String LONGITUDE = "longitude";
+
+    public static String LATITUDE = "latitude";
 }

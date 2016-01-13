@@ -21,13 +21,26 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ShuttleConstants;
+import com.example.dto.LoginAuthenticationResult;
+import com.example.fengge.shuttlebus.MainActivity;
 import com.example.fengge.shuttlebus.R;
+import com.example.jason.FastJasonTools;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.utils.HttpUtil;
+import com.utils.PropertiesUtil;
+import com.utils.SharePreferenceHelper;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
 import com.zxing.view.ViewfinderView;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 
 public class CaptureActivity extends Activity implements Callback {
@@ -103,7 +116,53 @@ public class CaptureActivity extends Activity implements Callback {
 		inactivityTimer.shutdown();
 		super.onDestroy();
 	}
-	
+
+	private void checkUserInfo (String routeId) {
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		String domainid = SharePreferenceHelper.getUser(getApplicationContext()).getDomainId();
+		params.put(ShuttleConstants.USER_ID, domainid);
+		params.put(ShuttleConstants.ROUTE_ID, routeId);
+		params.put(ShuttleConstants.LONGITUDE, 15);
+		params.put(ShuttleConstants.LATITUDE, 26);
+		HttpUtil.post(PropertiesUtil.getPropertiesURL(CaptureActivity.this, ShuttleConstants.SCAN_CODE), params, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
+				super.onSuccess(statusCode, headers, object);
+				if(ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(object.toString())){
+					Toast.makeText(getApplicationContext(), object.toString(),Toast.LENGTH_SHORT).show();
+					Intent resultIntent = new Intent();
+					Bundle bundle = new Bundle();
+					bundle.putString("result", "eee");
+
+					resultIntent.putExtras(bundle);
+					CaptureActivity.this.setResult(RESULT_OK, resultIntent);
+				}
+//				LoginAuthenticationResult currentUser = FastJasonTools.getParseBean(object.toString(), LoginAuthenticationResult.class);
+//				if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(currentUser.getStatus())) {
+//					Intent loginSuceed = new Intent(LoginActivity.this, MainActivity.class);
+//					startActivity(loginSuceed);
+//				} else {
+//					showTips(R.string.account_error, false);
+//				}
+//				mProgress.dismiss();
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+//				showTips(R.string.server_not_avaiable, false);
+//				mProgress.dismiss();
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+			}
+		});
+	}
+
+
 	public void handleDecode(Result result, Bitmap barcode) {
 		inactivityTimer.onActivity();
 		playBeepSoundAndVibrate();
@@ -111,11 +170,12 @@ public class CaptureActivity extends Activity implements Callback {
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		}else {
-			Intent resultIntent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putString("result", resultString);
-			resultIntent.putExtras(bundle);
-			this.setResult(RESULT_OK, resultIntent);
+//			Intent resultIntent = new Intent();
+//			Bundle bundle = new Bundle();
+//			bundle.putString("result", resultString);
+//			resultIntent.putExtras(bundle);
+//			this.setResult(RESULT_OK, resultIntent);
+			checkUserInfo (resultString);
 		}
 		CaptureActivity.this.finish();
 	}
