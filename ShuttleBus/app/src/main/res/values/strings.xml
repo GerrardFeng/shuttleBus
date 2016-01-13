@@ -51,4 +51,6 @@
     <string name="route_type">上/下</string>
     <string name="bus_number">路线</string>
     <string name="vacant_site">空位</string>
+
+    <string name="modify_date">选择有效日期</string>
 </resources>

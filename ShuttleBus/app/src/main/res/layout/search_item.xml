@@ -23,11 +23,9 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/route_type"/>
             <TextView
-                android:id="@+id/route_number"
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/bus_number"/>
+                android:layout_gravity="center_horizontal"/>
             <TextView
                 android:id="@+id/vacant_site"
                 android:layout_height="wrap_content"
