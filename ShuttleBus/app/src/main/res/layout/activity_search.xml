@@ -11,32 +11,62 @@
         android:paddingLeft="10dip"
         android:paddingRight="10dip">
 
+
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="8dp"
             android:src="@android:drawable/ic_menu_my_calendar">
         </ImageView>
 
-        <Button
-            android:id="@+id/select_date_btn"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
+        <com.cengalabs.flatui.views.FlatEditText
+            android:id="@+id/search_key"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_margin="5dip"
+            android:maxLines="1"
+            android:gravity="center_vertical"
             android:onClick="setDate"
-            android:text="2016/01/12"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center_horizontal" />
-
+            android:includeFontPadding="true"
+            flatui:fl_fieldStyle="fl_transparent"
+            flatui:fl_theme="@array/sky" />
     </LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:stretchColumns="*" >
 
-    <ExpandableListView
-        android:id ="@+id/expandableListView"
-        android:layout_width ="fill_parent"
-        android:layout_height ="match_parent"
-        />
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="1dip"
+                android:layout_gravity="center_horizontal"
+                android:text="上/下"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="1dip"
+                android:layout_gravity="center_horizontal"
+                android:text="路线"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="1dip"
+                android:layout_gravity="center_horizontal"
+                android:text="空位"/>
+
+        </TableRow>
+    </TableLayout>
+    <ListView
+        android:id="@+id/searchListView"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="center"
         android:layout_height="fill_parent"
         android:gravity="center"/>
 </LinearLayout>

@@ -6,17 +6,25 @@ import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.DatePicker;
-import android.widget.ExpandableListView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 public class SearchActivity extends Activity {
 
-    private Button dateSelectBtn;
+    private Calendar calendar;
+    private int year, month, day;
+    private EditText dateText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,49 +32,59 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        dateSelectBtn = (Button)findViewById(R.id.select_date_btn);
-        dateSelectBtn.setOnClickListener(new DateSelectListener());
-        Calendar calendar = Calendar.getInstance();
-        dateSelectBtn.setText(getDateString(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
+        dateText = (EditText)findViewById(R.id.search_key);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
 
-
-        ExpandableListView expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);
-        ExpandableAdapter adapter = new ExpandableAdapter(SearchActivity.this);
-
-        expandableListView.setAdapter(adapter);
-
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        showDate(year, month + 1, day);
     }
 
+    private List<HashMap<String, String>> initTicketData() {
+        List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
+        for(int i=0; i<30; i++) {
+            HashMap<String, String> item = new HashMap<String, String>();
+            item.put("route_type", "上");
+            item.put("route_number", "1");
+            item.put("vacant_site", "50");
+            dataList.add(item);
+        }
+        return dataList;
+    }
 
-    class DateSelectListener implements View.OnClickListener{
+    private void initListViewEvent(List<HashMap<String, String>> routData) {
+        ListView listView = (ListView) this.findViewById(R.id.searchListView);
+        SimpleAdapter adapter = new SimpleAdapter(this, routData, R.layout.search_item, new String[] { "route_type", "route_number",
+                "vacant_site" }, new int[] { R.id.route_type, R.id.route_number, R.id.vacant_site });
+        listView.setAdapter(adapter);
+    }
 
+    @SuppressWarnings("deprecation")
+    public void setDate(View view) {
+        showDialog(999);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == 999) {
+            return new DatePickerDialog(this, myDateListener, year, month, day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onClick(View v) {
-            Calendar calendar = Calendar.getInstance();
-            new DatePickerDialog(SearchActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    dateSelectBtn.setText(getDateString(year, monthOfYear, dayOfMonth + 1));
-
-                    refreshDataForListView();
-
-                }
-            },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ).show();
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            showDate(arg1, arg2 + 1, arg3);
+            List<HashMap<String, String>> routeData = initTicketData();
+            initListViewEvent(routeData);
 
         }
+    };
+
+    private void showDate(int year, int month, int day) {
+        dateText.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
     }
-
-
-    private String getDateString(int year, int month, int day) {
-        return new StringBuilder().append(month).append("/").append(day).append("/").append(year).toString();
-    }
-
-    private void refreshDataForListView() {
-
-    }
-
-
-
 
 }
