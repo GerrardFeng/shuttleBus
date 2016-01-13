@@ -2,18 +2,14 @@ package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +20,6 @@ public class SearchActivity extends Activity {
 
     private Calendar calendar;
     private int year, month, day;
-    private EditText dateText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,59 +27,71 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        dateText = (EditText)findViewById(R.id.search_key);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-
-        month = calendar.get(Calendar.MONTH);
+        month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month + 1, day);
+        List<HashMap<String, Object>> dateData = initDateData(year, month, day);
+        initModifyDateListViewEvent(dateData);
+
+        List<HashMap<String, Object>> searchData = initSearchData();
+        initSearchListViewEvent(searchData);
     }
 
-    private List<HashMap<String, String>> initTicketData() {
-        List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
-        for(int i=0; i<30; i++) {
-            HashMap<String, String> item = new HashMap<String, String>();
-            item.put("route_type", "上");
-            item.put("route_number", "1");
-            item.put("vacant_site", "50");
+    private List<HashMap<String, Object>> initSearchData() {
+        List<HashMap<String, Object>> dataList = new ArrayList<HashMap<String, Object>>();
+        for(int i=0; i<5; i++) {
+            HashMap<String, Object> item = new HashMap<String, Object>();
+            item.put("route", "上班路线：10");
+            item.put("vacant_site", "剩余空位：50");
             dataList.add(item);
         }
         return dataList;
     }
 
-    private void initListViewEvent(List<HashMap<String, String>> routData) {
+    private void initSearchListViewEvent(List<HashMap<String, Object>> searchData) {
         ListView listView = (ListView) this.findViewById(R.id.searchListView);
-        SimpleAdapter adapter = new SimpleAdapter(this, routData, R.layout.search_item, new String[] { "route_type", "route_number",
-                "vacant_site" }, new int[] { R.id.route_type, R.id.route_number, R.id.vacant_site });
+        SimpleAdapter adapter = new SimpleAdapter(this, searchData, R.layout.search_item, new String[] { "route", "vacant_site"},
+                new int[] { R.id.route_type, R.id.vacant_site});
         listView.setAdapter(adapter);
     }
 
-    @SuppressWarnings("deprecation")
-    public void setDate(View view) {
-        showDialog(999);
+    private List<HashMap<String, Object>> initDateData(int year, int month, int day) {
+        List<HashMap<String, Object>> dataList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> item = new HashMap<String, Object>();
+        item.put("dateIcon", R.drawable.date);
+        item.put("dateTime", (new StringBuilder().append(year).append(".").append(month).append(".").append(day)).toString());
+        item.put("arrowIcon", R.drawable.arrow);
+        dataList.add(item);
+        return dataList;
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            return new DatePickerDialog(this, myDateListener, year, month, day);
+    private void initModifyDateListViewEvent(List<HashMap<String, Object>> dateData) {
+        ListView listView = (ListView) this.findViewById(R.id.modify_date_time_bt);
+        SimpleAdapter adapter = new SimpleAdapter(this, dateData, R.layout.modify_date_item, new String[] { "dateIcon", "dateTime", "arrowIcon" },
+                new int[] { R.id.route1Icon, R.id.modify_date_time, R.id.search_arrowIcon});
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new ItemClickListener());
+    }
+
+    private final class ItemClickListener implements OnItemClickListener {
+
+        @SuppressWarnings("unchecked")
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ListView listView = (ListView) parent;
+            HashMap<String, Object> data = (HashMap<String, Object>) listView.getItemAtPosition(position);
+
+            new DatePickerDialog(SearchActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker dateView, int currentYear, int currentMonth, int currentDay) {
+                    List<HashMap<String, Object>> dateData = initDateData(currentYear, currentMonth + 1, currentDay);
+                    initModifyDateListViewEvent(dateData);
+                    // TODO refresh data
+
+                }
+            },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ).show();
+
+
         }
-        return null;
     }
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            showDate(arg1, arg2 + 1, arg3);
-            List<HashMap<String, String>> routeData = initTicketData();
-            initListViewEvent(routeData);
-
-        }
-    };
-
-    private void showDate(int year, int month, int day) {
-        dateText.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
-    }
-
 }

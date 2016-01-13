@@ -63,7 +63,7 @@
             />
 
         <CheckBox
-            android:id="@+id/cb_mima"
+            android:id="@+id/remember_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/account_pwd"
@@ -72,10 +72,10 @@
             android:textColor="#000000" />
 
         <CheckBox
-            android:id="@+id/cb_auto"
+            android:id="@+id/login_auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cb_mima"
+            android:layout_below="@id/remember_pwd"
             android:layout_marginLeft="12dip"
             android:text="@string/auto_login"
             android:textColor="#000000" />
@@ -85,7 +85,7 @@
             android:layout_height="50dip"
             android:layout_below="@id/account_pwd"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/cb_auto"
+            android:layout_alignTop="@id/login_auto"
             android:layout_marginRight="10dip"
             android:gravity="center"
             android:text="@string/login"
