@@ -27,14 +27,14 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/bus_point"
                 android:textSize="18dp"
-                android:textAlignment="center"
-                />
+                android:textAlignment="center" />
 
             <AutoCompleteTextView
                 android:id="@+id/on_stop_auto_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:completionThreshold="1" />
+                android:completionThreshold="1"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +54,8 @@
                 android:id="@+id/on_route_auto_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:completionThreshold="1" />
+                android:completionThreshold="1"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +80,8 @@
                     android:id="@+id/on_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="长期预定(长期有效)" />
+                    android:text="长期预定(长期有效)"
+                    android:checked="true"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -95,21 +97,14 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/on_back"
-                android:layout_width="110dp"
-                android:layout_height="30dp"
-                android:background="#be573f"
-                android:text="返回"
-                android:textColor="@android:color/white" />
-
-            <Button
                 android:id="@+id/on_gen_ticket"
                 android:layout_width="110dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:background="#be573f"
                 android:text="生成Ticket"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:onClick="generateTicket"/>
         </LinearLayout>
     </LinearLayout>
 

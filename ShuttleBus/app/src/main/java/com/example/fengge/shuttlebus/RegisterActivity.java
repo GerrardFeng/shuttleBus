@@ -3,6 +3,7 @@ package com.example.fengge.shuttlebus;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -55,6 +56,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         fragmentManager = getFragmentManager();
         setTabSelection(1);
         setTabSelection(0);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //
 //
 //

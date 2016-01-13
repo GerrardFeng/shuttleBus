@@ -2,6 +2,7 @@ package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ public class TicketActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ticket);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.checkInButton);
         circularButton1.setIndeterminateProgressMode(true);

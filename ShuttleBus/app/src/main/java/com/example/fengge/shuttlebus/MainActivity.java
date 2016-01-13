@@ -3,6 +3,7 @@ package com.example.fengge.shuttlebus;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.home_tab);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Iconify
                 .with(new FontAwesomeModule())
