@@ -47,17 +47,17 @@
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
                 android:layout_gravity="center_horizontal"
-                android:text="上/下"/>
+                android:text="@string/route_type"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
                 android:layout_gravity="center_horizontal"
-                android:text="路线"/>
+                android:text="@string/bus_number"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
                 android:layout_gravity="center_horizontal"
-                android:text="空位"/>
+                android:text="@string/vacant_site"/>
 
         </TableRow>
     </TableLayout>
