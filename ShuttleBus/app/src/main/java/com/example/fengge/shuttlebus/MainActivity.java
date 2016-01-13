@@ -114,7 +114,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
         spec = tabHost.newTabSpec("Register")
                 .setIndicator(tab3)
-                .setContent(new Intent(this, RegisterActivity.class));
+                .setContent(new Intent(this, BookingTicketActivity.class));
 
         tabHost.addTab(spec);
 
