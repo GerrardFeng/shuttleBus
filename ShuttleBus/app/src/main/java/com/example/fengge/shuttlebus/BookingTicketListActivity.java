@@ -9,6 +9,15 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.dto.Station;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.utils.HttpUtil;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +33,13 @@ public class BookingTicketListActivity  extends Activity {
     private Intent intent;
     private String sourceType;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_ticket_list);
         initData();
-        initView();
-        initEvent();
+//        initView();
+//        initEvent();
     }
 
 
@@ -40,11 +48,54 @@ public class BookingTicketListActivity  extends Activity {
         Bundle bundle = intent.getExtras();
         sourceType = bundle.getString("sourceType");
         if (SourceType.ROUTE.getName().equals(sourceType)) {
-            // get route
+            // TODO
         }
         if (SourceType.STOP.getName().equals(sourceType)) {
-            // TODO get stop
-            createData();
+            initStationList();
+        }
+    }
+
+    private void initStationList() {
+        String url = "http://chenja17-w7.corp.oocl.com:8088/sba-webapp/api/mobile/getallstations";
+        final List<Station> stations = new ArrayList<Station>();
+        HttpUtil.get(url, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray object) {
+
+                for (int i = 0; i < object.length(); i++) {
+                    Station station = new Station();
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = (JSONObject) object.get(i);
+                        station.setId((int) jsonObject.get("id"));
+                        station.setName((String) jsonObject.get("name"));
+                        stations.add(station);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                buildListFromStations(stations);
+                initView();
+                initEvent();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                initView();
+//                initEvent();
+            }
+
+        });
+    }
+
+    private void buildListFromStations(List<Station> stations) {
+        for (Station station : stations) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("route_icon", R.drawable.stop);
+            map.put("id", station.getId());
+            map.put("name", station.getName());
+            list.add(map);
         }
     }
 
@@ -54,7 +105,7 @@ public class BookingTicketListActivity  extends Activity {
         textView.setText(sourceType);
         listView = (ListView) this.findViewById(R.id.route_list_view);
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.booking_list_item, new String[] { "route_icon", "name",
-                "arrow_icon" }, new int[] { R.id.route_icon , R.id.name,  R.id.arrow_icon });
+                 }, new int[] { R.id.route_icon , R.id.name });
         listView.setAdapter(adapter);
     }
 

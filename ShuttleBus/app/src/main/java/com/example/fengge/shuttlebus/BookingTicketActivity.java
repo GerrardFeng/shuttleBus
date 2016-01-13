@@ -2,6 +2,7 @@ package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,26 +43,26 @@ public class BookingTicketActivity extends Activity{
     private void initData() {
         // 站点
         HashMap<String, Object> item = new HashMap<String, Object>();
-        item.put("route_icon", R.drawable.bus_icon);
+        item.put("route_icon", R.drawable.stop);
         item.put("name", SourceType.STOP.getName());
         item.put("value", "");
-        item.put("arrow_icon", R.drawable.bus_icon);
+        item.put("arrow_icon", R.drawable.arrow);
         routeList.add(item);
 
         // 路线
         HashMap<String, Object> item1 = new HashMap<String, Object>();
-        item1.put("route_icon", R.drawable.bus_icon);
+        item1.put("route_icon", R.drawable.route);
         item1.put("name", SourceType.ROUTE.getName());
         item1.put("value", "");
-        item1.put("arrow_icon", R.drawable.bus_icon);
+        item1.put("arrow_icon", R.drawable.arrow);
         routeList.add(item1);
 
         // 时间
         HashMap<String, Object> item2 = new HashMap<String, Object>();
-        item2.put("route_icon", R.drawable.bus_icon);
+        item2.put("route_icon", R.drawable.date);
         item2.put("name", SourceType.TIME.getName());
-        item2.put("value", new Date());
-        item2.put("arrow_icon", R.drawable.bus_icon);
+        item2.put("value", "2016.1.1");
+        item2.put("arrow_icon", R.drawable.arrow);
         timeList.add(item2);
     }
 
@@ -83,15 +84,15 @@ public class BookingTicketActivity extends Activity{
         onDutyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDutyButton.setTextColor(getResources().getColor(R.color.bg_color));
-                onDutyButton.setBackgroundColor(getResources().getColor(R.color.blood_dark));
+                onDutyButton.setBackgroundColor(Color.RED);
+                onDutyButton.setTextColor(Color.BLUE);
             }
         });
         offDutyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                offDutyButton.setTextColor(getResources().getColor(R.color.blood_dark));
-                offDutyButton.setBackgroundColor(getResources().getColor(R.color.bg_color));
+                offDutyButton.setTextColor(Color.BLUE);
+                onDutyButton.setBackgroundColor(Color.RED);
             }
         });
         routeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
