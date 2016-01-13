@@ -15,10 +15,18 @@ public class ShuttleConstants {
 
     public static String URL_GET_TICKETS = "URL_GET_TICKETS";
 
+    public static String URL_GET_ROUTE = "URL_GET_ROUTE";
+
     public static String LOGIN_SUCCESS = "success";
 
     public static String USER_ID = "userid";
     public static String URL_STATION = "URL_STOP";
 
     public static String SHOW_TICKET = "SHOW_TICKET";
+
+    public static String STATION_ID = "STATION_ID";
+
+    public static String SOURCE_TYPE = "SOURCE_TYPE";
+
+    public static String ROUTE_VALUE = "value";
 }

@@ -3,15 +3,22 @@ package com.example.fengge.shuttlebus;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.ShuttleConstants;
+import com.example.dto.RouteInfo;
 import com.example.dto.Station;
+import com.example.jason.FastJasonTools;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
+import com.utils.PropertiesUtil;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -25,13 +32,15 @@ import java.util.List;
 /**
  * Created by GUOFR2 on 1/13/2016.
  */
-public class BookingTicketListActivity  extends Activity {
+public class BookingTicketListActivity extends Activity {
 
     private List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
     private ListView listView;
     private TextView textView;
     private Intent intent;
     private String sourceType;
+
+    private SimpleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +56,47 @@ public class BookingTicketListActivity  extends Activity {
         intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         sourceType = bundle.getString("sourceType");
+
         if (SourceType.ROUTE.getName().equals(sourceType)) {
-            // TODO
+            String stationId = (String) bundle.get(ShuttleConstants.STATION_ID);
+            initRouteList(stationId);
         }
         if (SourceType.STOP.getName().equals(sourceType)) {
             initStationList();
         }
+    }
+
+    private void initRouteList(String stationId) {
+        Log.v("ZZZZZZ", stationId + "");
+        getRouteData(stationId);
+    }
+
+    private void getRouteData(String stationId) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("stationid", stationId);
+        HttpUtil.get(PropertiesUtil.getPropertiesURL(BookingTicketListActivity.this, ShuttleConstants.URL_GET_ROUTE), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray arry) {
+                super.onSuccess(statusCode, headers, arry);
+
+                Log.v("Statiion route", arry.toString());
+                buidRouteDatalist(arry.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray arry) {
+                super.onFailure(statusCode, headers, throwable, arry);
+            }
+        });
+
+    }
+
+    private void buidRouteDatalist(String str) {
+        List<RouteInfo> routes = FastJasonTools.getParseBeanArray(str, RouteInfo.class);
+        buildListFromRoutess(routes);
+        initView();
+        initEvent();
     }
 
     private void initStationList() {
@@ -99,13 +143,24 @@ public class BookingTicketListActivity  extends Activity {
         }
     }
 
+    private void buildListFromRoutess(List<RouteInfo> routes) {
+        list = new ArrayList<HashMap<String, Object>>();
+        for (RouteInfo route : routes) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("route_icon", R.drawable.stop);
+            map.put("id", route.getId());
+            map.put("name", route.getName());
+            list.add(map);
+        }
+    }
+
 
     private void initView() {
         textView = (TextView) this.findViewById(R.id.title);
         textView.setText(sourceType);
         listView = (ListView) this.findViewById(R.id.route_list_view);
-        SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.booking_list_item, new String[] { "route_icon", "name",
-                 }, new int[] { R.id.route_icon , R.id.name });
+        adapter = new SimpleAdapter(this, list, R.layout.booking_list_item, new String[]{"route_icon", "name"
+        }, new int[]{R.id.route_icon, R.id.name});
         listView.setAdapter(adapter);
     }
 
@@ -120,6 +175,7 @@ public class BookingTicketListActivity  extends Activity {
                 String name = String.valueOf(map.get("name"));
                 Intent intent = new Intent();
                 intent.putExtra("id", id);
+                intent.putExtra(ShuttleConstants.SOURCE_TYPE, sourceType);
                 intent.putExtra("name", name);
                 setResult(RESULT_OK, intent);
                 finish();
