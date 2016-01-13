@@ -2,6 +2,7 @@ package com.example.fengge.shuttlebus;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class LoginActivity extends Activity {
 
     private EditText userEdit;
     private EditText pwdEdit;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +39,27 @@ public class LoginActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         userEdit = (EditText)findViewById(R.id.account_userName);
-        pwdEdit = (EditText)findViewById(R.id.account__pwd);
+        pwdEdit = (EditText)findViewById(R.id.account_pwd);
+
         Button loginBtn = (Button)findViewById(R.id.btn_login);
         loginBtn.setOnClickListener(new loginButtonListener());
     }
 
 
     class loginButtonListener implements View.OnClickListener{
-
         @Override
         public void onClick(View v) {
-            String domainid = userEdit.getText().toString();
+            String domainId = userEdit.getText().toString();
             String pwd = pwdEdit.getText().toString();
-            if (isUserInputHasEmpty(domainid, pwd)) {
+            if (isUserInputHasEmpty(domainId, pwd)) {
                 showTips(R.string.account_has_empty, false);
                 return;
             }
-            doLogin(domainid, pwd);
+            mProgress = new ProgressDialog(LoginActivity.this);
+            mProgress.setTitle(R.string.login_loading);
+            mProgress.setMessage(getResources().getString(R.string.please_wait));
+            mProgress.show();
+            doLogin(domainId, pwd);
         }
     }
 
@@ -74,12 +80,14 @@ public class LoginActivity extends Activity {
                 } else {
                     showTips(R.string.account_error, false);
                 }
+                mProgress.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(R.string.server_not_avaiable, false);
+                mProgress.dismiss();
             }
         });
     }

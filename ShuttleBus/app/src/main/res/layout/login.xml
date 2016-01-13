@@ -49,7 +49,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/account__pwd"
+            android:id="@+id/account_pwd"
             android:layout_width="fill_parent"
             android:layout_height="40dip"
             android:layout_below="@id/tv_pwd"
@@ -66,7 +66,7 @@
             android:id="@+id/cb_mima"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/account__pwd"
+            android:layout_below="@id/account_pwd"
             android:layout_marginLeft="12dip"
             android:text="@string/remember_pwd"
             android:textColor="#000000" />
@@ -83,7 +83,7 @@
             android:id="@+id/btn_login"
             android:layout_width="80dip"
             android:layout_height="50dip"
-            android:layout_below="@id/account__pwd"
+            android:layout_below="@id/account_pwd"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/cb_auto"
             android:layout_marginRight="10dip"

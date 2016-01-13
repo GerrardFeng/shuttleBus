@@ -43,6 +43,10 @@
     <string name="account_has_empty">请输入账号密码。</string>
 
     <string name="server_not_avaiable">服务器忙，请稍后再试。</string>
+
+    <string name="login_loading">Signing in...</string>
+    <string name="please_wait">Please Wait...</string>
+
     <string name="route_type">上/下</string>
     <string name="bus_number">路线</string>
     <string name="vacant_site">空位</string>
