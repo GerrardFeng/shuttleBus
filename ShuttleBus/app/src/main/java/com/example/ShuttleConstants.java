@@ -37,4 +37,10 @@ public class ShuttleConstants {
     public static String LONGITUDE = "longitude";
 
     public static String LATITUDE = "latitude";
+
+    public static String URL_GET_USER_INFO = "URL_GET_USER_INFO";
+
+    public static String URL_UPDATE_USER_TYPE = "URL_UPDATE_USER_TYPE";
+
+    public static String USER_TYPE = "type";
 }
