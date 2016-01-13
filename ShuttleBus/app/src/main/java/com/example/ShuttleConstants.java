@@ -15,4 +15,7 @@ public class ShuttleConstants {
 
     public static String LOGIN_SUCCESS = "success";
 
+    public static String USER_ID = "userid";
+
+    public static String SHOW_TICKET = "SHOW_TICKET";
 }

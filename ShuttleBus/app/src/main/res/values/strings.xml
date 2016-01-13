@@ -53,4 +53,6 @@
     <string name="vacant_site">空位</string>
 
     <string name="modify_date">选择有效日期</string>
+
+    <string name="loading_tick">正在获取凭证...</string>
 </resources>
