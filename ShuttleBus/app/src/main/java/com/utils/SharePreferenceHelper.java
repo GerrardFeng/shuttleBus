@@ -15,6 +15,8 @@ public class SharePreferenceHelper {
 
 	private static final String PWD = "pwd";
 
+	private static final String DOMAINID = "domainId";
+
 		public static void saveUser(Context context, BusUser user){
 			SharedPreferences setting = context.getSharedPreferences("config",context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = setting.edit();
@@ -62,6 +64,18 @@ public class SharePreferenceHelper {
 	public static String getPwd (Context context) {
 		SharedPreferences setting = context.getSharedPreferences("config", context.MODE_PRIVATE);
 		return setting.getString(PWD, "");
+	}
+
+	public static void saveDomainId(Context context, String domainId) {
+		SharedPreferences setting = context.getSharedPreferences("config",context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = setting.edit();
+		editor.putString(DOMAINID, domainId);
+		editor.commit();
+	}
+
+	public static String getDomainid(Context context) {
+		SharedPreferences setting = context.getSharedPreferences("config", context.MODE_PRIVATE);
+		return setting.getString(DOMAINID, "");
 	}
 
 }

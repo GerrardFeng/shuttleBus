@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -45,20 +46,30 @@ public class LoginActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (SharePreferenceHelper.isAutoLogin(LoginActivity.this)) {
             processAutoLogin();
-            return;
         }
         userEdit = (EditText)findViewById(R.id.account_userName);
         pwdEdit = (EditText)findViewById(R.id.account_pwd);
+        rememberPwdCb = ((CheckBox)findViewById(R.id.remember_pwd));
+        autoLoginCb = (CheckBox)findViewById(R.id.login_auto);
 
         if (SharePreferenceHelper.isRememberPwd(LoginActivity.this)) {
-            BusUser busUser = SharePreferenceHelper.getUser(LoginActivity.this);
-            Log.v("Hustzw", "set user info");
-            userEdit.setText(busUser.getDomainId());
+            userEdit.setText(SharePreferenceHelper.getDomainid(LoginActivity.this));
             pwdEdit.setText(SharePreferenceHelper.getPwd(LoginActivity.this));
-            ((CheckBox)findViewById(R.id.remember_pwd)).setChecked(true);
-            Log.v("Hustzw", "set user info" + busUser.getDomainId() + ":" + busUser.getPassword());
+            rememberPwdCb.setChecked(true);
+            Log.v("Hustzw", "set user info");
         }
-
+        rememberPwdCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    autoLoginCb.setClickable(true);
+                } else {
+                    pwdEdit.setText("");
+                    autoLoginCb.setChecked(false);
+                    autoLoginCb.setClickable(false);
+                }
+            }
+        });
         Button loginBtn = (Button)findViewById(R.id.btn_login);
         loginBtn.setOnClickListener(new loginButtonListener());
     }
@@ -82,7 +93,7 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void doLogin (String domainid, String pwd) {
+    private void doLogin (final String domainid, String pwd) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.ACCOUNT_DOMAINID, domainid);
@@ -92,14 +103,18 @@ public class LoginActivity extends Activity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
                 super.onSuccess(statusCode, headers, object);
                 LoginAuthenticationResult currentUser = FastJasonTools.getParseBean(object.toString(), LoginAuthenticationResult.class);
-                SharePreferenceHelper.saveUser(LoginActivity.this, currentUser.getUser());
+
                 if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(currentUser.getStatus())) {
+                    SharePreferenceHelper.saveUser(LoginActivity.this, currentUser.getUser());
+                    SharePreferenceHelper.saveDomainId(LoginActivity.this, domainid);
                     Intent loginSuceed = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(loginSuceed);
                 } else {
                     showTips(R.string.account_error, false);
                 }
-                mProgress.dismiss();
+                if (mProgress != null){
+                    mProgress.dismiss();
+                }
             }
 
             @Override
@@ -139,10 +154,14 @@ public class LoginActivity extends Activity {
 //TODO　
             SharePreferenceHelper.savePwd(LoginActivity.this, pwdEdit.getText().toString());
             SharePreferenceHelper.setRememberPwd(LoginActivity.this, true);
+        } else {
+            SharePreferenceHelper.setRememberPwd(LoginActivity.this, false);
         }
         if (autoLoginCb.isChecked()) {
             SharePreferenceHelper.setAutoLogin(LoginActivity.this, true);
             Log.v("Hustzw", "checked autoLogin");
+        } else {
+            SharePreferenceHelper.setAutoLogin(LoginActivity.this, false);
         }
     }
 
@@ -151,7 +170,16 @@ public class LoginActivity extends Activity {
         if(busUser != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             Log.v("Hustzw", "autoLogin");
-            startActivity(intent);
+            doLogin(busUser.getDomainId(), SharePreferenceHelper.getPwd(LoginActivity.this));
+        } else {
+            userEdit = (EditText)findViewById(R.id.account_userName);
+            pwdEdit = (EditText)findViewById(R.id.account_pwd);
+            rememberPwdCb = (CheckBox)findViewById(R.id.remember_pwd);
+            autoLoginCb = (CheckBox)findViewById(R.id.login_auto);
+            userEdit.setText(SharePreferenceHelper.getDomainid(LoginActivity.this));
+            pwdEdit.setText(SharePreferenceHelper.getPwd(LoginActivity.this));
+            rememberPwdCb.setChecked(SharePreferenceHelper.isRememberPwd(LoginActivity.this));
+            autoLoginCb.setChecked(SharePreferenceHelper.isAutoLogin(LoginActivity.this));
         }
     }
 

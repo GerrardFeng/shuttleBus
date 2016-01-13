@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.dto.BusUser;
 import com.utils.SharePreferenceHelper;
 
 /**
@@ -80,7 +81,7 @@ public class UserInfoActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            SharePreferenceHelper.saveUser(UserInfoActivity.this,null);
+            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
             Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
             startActivity(loginActivity);
         }
