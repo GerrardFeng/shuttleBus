@@ -16,11 +16,13 @@ import com.example.jason.FastJasonTools;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.utils.CustomProgressDialog;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
 import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -28,7 +30,6 @@ import org.json.JSONObject;
  */
 public class TicketActivity extends BaseActivity {
 
-    ProgressDialog mProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class TicketActivity extends BaseActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getTicket();
         final CircularProgressButton circularButton1 = (CircularProgressButton) findViewById(R.id.checkInButton);
+
         circularButton1.setIndeterminateProgressMode(true);
         circularButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +84,6 @@ public class TicketActivity extends BaseActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(TicketActivity.this, R.string.server_not_avaiable, false);
                 circularButton1.setProgress(0);
-                mProgress.dismiss();
             }
         });
     }
@@ -93,10 +94,8 @@ public class TicketActivity extends BaseActivity {
         RequestParams params = new RequestParams();
         BusUser busUser = SharePreferenceHelper.getUser(TicketActivity.this);
 
-        mProgress = new ProgressDialog(TicketActivity.this);
-        mProgress.setTitle(R.string.loading_tick);
-        mProgress.setMessage(getResources().getString(R.string.please_wait));
-        mProgress.show();
+        final CustomProgressDialog progressDialog = new CustomProgressDialog(TicketActivity.this);
+        progressDialog.show();
 
         params.put(ShuttleConstants.USER_ID, busUser.getId());
 
@@ -110,24 +109,25 @@ public class TicketActivity extends BaseActivity {
                 } else {
                     showTips(TicketActivity.this, R.string.has_not_ticket, false);
                 }
-                mProgress.dismiss();
+                Log.v("HUSTZW", "TicketActivity -onSuccess");
+                progressDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(TicketActivity.this, R.string.server_not_avaiable, false);
-                mProgress.dismiss();
+                Log.v("HUSTZW", "TicketActivity -onFailure 1");
+                progressDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 showTips(TicketActivity.this, R.string.server_not_avaiable, false);
-                mProgress.dismiss();
+                Log.v("HUSTZW", "TicketActivity -onFailure 3");
+                progressDialog.hide();
             }
-
-
         });
     }
     private void renderTicket(TicketResult ticketResult){
