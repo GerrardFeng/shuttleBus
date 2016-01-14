@@ -2,6 +2,7 @@ package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class SearchActivity extends Activity {
     private Calendar calendar;
     private int year, month, day;
     private List<RouteInfo> currentRouteList;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,19 @@ public class SearchActivity extends Activity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
+        initProgressDialog();
+
         List<HashMap<String, Object>> dateData = initDateData(year, month, day);
         initModifyDateListViewEvent(dateData);
-
         List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
         initSearchListViewEvent(searchData);
         getBusVacancy (year, month, day);
+    }
+
+    private void initProgressDialog(){
+        mProgress = new ProgressDialog(SearchActivity.this);
+        mProgress.setTitle(R.string.check_loading);
+        mProgress.setMessage(getResources().getString(R.string.please_wait));
     }
 
     private List<HashMap<String, Object>> initSearchData(List<RouteInfo> currentRouteList) {
@@ -130,6 +139,7 @@ public class SearchActivity extends Activity {
 
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.SEARCH_DATE, searchDate);
+        mProgress.show();
         HttpUtil.get(PropertiesUtil.getPropertiesURL(SearchActivity.this, ShuttleConstants.URL_BUS_VACANCY), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray object) {
@@ -138,12 +148,14 @@ public class SearchActivity extends Activity {
                 currentRouteList = FastJasonTools.getParseBeanArray(object.toString(), RouteInfo.class);
                 List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
                 initSearchListViewEvent(searchData);
+                mProgress.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 Toast.makeText(SearchActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+                mProgress.dismiss();
             }
 
             @Override
