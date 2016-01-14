@@ -53,7 +53,8 @@ public class UserInfoActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            String userId = "123";
+            String userId = SharePreferenceHelper.getDomainid(UserInfoActivity.this);
+            Log.v("UserInfoActivity", userId);
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params = new RequestParams();
             params.put(ShuttleConstants.USER_ID, userId);
@@ -118,7 +119,8 @@ public class UserInfoActivity extends Activity {
     }
 
     private void updateUserType(String userType) {
-        String userId = "123";
+        String userId = SharePreferenceHelper.getDomainid(UserInfoActivity.this);
+        Log.v("UserInfoActivity", userId);
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.USER_ID, userId);

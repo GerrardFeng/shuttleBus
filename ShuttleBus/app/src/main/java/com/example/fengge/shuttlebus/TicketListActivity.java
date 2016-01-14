@@ -27,6 +27,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
+import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -48,7 +49,8 @@ public class TicketListActivity extends Activity {
         setContentView(R.layout.ticket_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        String userId = "123";
+        String userId = SharePreferenceHelper.getDomainid(TicketListActivity.this);
+        Log.v("TicketListActivity",userId);
         Log.v("hustzw", "ONCLICK");
 
         AsyncHttpClient client = new AsyncHttpClient();
