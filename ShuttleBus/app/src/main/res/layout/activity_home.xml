@@ -7,65 +7,33 @@
 
     <include layout="@layout/title_layout"/>
 
-    <TableLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        >
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:paddingLeft="40dip"
+        android:paddingRight="40dip">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            >
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-            <Button
-                android:id="@+id/scan_barcode_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sweep_code_up_bus"
-                android:layout_weight="2"
-                />
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
+        <Button
+            android:id="@+id/scan_barcode_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
+            android:text="@string/sweep_code_up_bus" />
 
-        </TableRow>
+        <Button
+            android:id="@+id/viewBusTicket"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
+            android:text="@string/show_tickets" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            >
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-            <Button
-                android:id="@+id/viewBusTicket"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/view_bus_ticket"
-                android:layout_weight="2"
-                />
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
 
-        </TableRow>
-    </TableLayout>
-    <TextView
-        android:id="@+id/tv_scan_result"
-        android:layout_width="fill_parent"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </LinearLayout>
