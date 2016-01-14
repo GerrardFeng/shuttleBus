@@ -33,7 +33,7 @@ import org.json.JSONObject;
 /**
  * Created by WURY on 1/12/2016.
  */
-public class TicketActivity extends Activity {
+public class TicketActivity extends BaseActivity {
 
     ProgressDialog mProgress;
     @Override
@@ -58,10 +58,10 @@ public class TicketActivity extends Activity {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
-        String ticketid = "4";
+        String ticketId = "4";
         String longitude = "23.5654";
         String latitude = "24.5365";
-        params.put(ShuttleConstants.TICKET_ID, ticketid);
+        params.put(ShuttleConstants.TICKET_ID, ticketId);
         params.put(ShuttleConstants.LONGITUDE, longitude);
         params.put(ShuttleConstants.LATITUDE, latitude);
         circularButton1.setProgress(50);

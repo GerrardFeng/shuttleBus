@@ -29,7 +29,7 @@ import org.json.JSONObject;
 /**
  * Created by WURY on 1/12/2016.
  */
-public class UserInfoActivity extends Activity {
+public class UserInfoActivity extends BaseActivity {
 
     private int selectedUserType = 0;
 
@@ -157,9 +157,11 @@ public class UserInfoActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
-            Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
-            startActivity(loginActivity);
+//            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
+//            Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
+//            startActivity(loginActivity);
+            SharePreferenceHelper.setAutoLogin(UserInfoActivity.this, false);
+            ActivityCollector.finishAll();
         }
     }
 

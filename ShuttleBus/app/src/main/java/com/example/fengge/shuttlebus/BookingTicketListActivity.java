@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by GUOFR2 on 1/13/2016.
  */
-public class BookingTicketListActivity extends Activity {
+public class BookingTicketListActivity extends BaseActivity {
 
     private List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
     private ListView listView;

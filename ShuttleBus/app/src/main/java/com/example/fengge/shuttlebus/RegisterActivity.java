@@ -23,7 +23,7 @@ import android.widget.Toast;
 /**
  * Created by ZHANGLU6 on 1/8/2016.
  */
-public class RegisterActivity extends Activity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private View goToWorkLayout;
 

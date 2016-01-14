@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.zxing.activity.CaptureActivity;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends BaseActivity {
 
     @Override
     @SuppressLint("InlinedApi")

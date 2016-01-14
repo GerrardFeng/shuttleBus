@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by GUOFR2 on 1/13/2016.
  */
-public class BookingTicketActivity extends Activity {
+public class BookingTicketActivity extends BaseActivity {
 
     private Button onDutyButton;
     private Button offDutyButton;
