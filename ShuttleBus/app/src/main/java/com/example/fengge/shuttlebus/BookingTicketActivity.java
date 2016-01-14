@@ -21,6 +21,7 @@ import com.example.ShuttleConstants;
 import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.utils.CustomProgressDialog;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
 import com.utils.SharePreferenceHelper;
@@ -194,13 +195,17 @@ public class BookingTicketActivity extends BaseActivity {
         params.put("stationid", Integer.valueOf(selectStationId));
         params.put("type", selectTicketType);
         params.put("ridingdate", selectDate);
+        //TODO progross
 
+        final CustomProgressDialog dialog = new CustomProgressDialog(BookingTicketActivity.this);
+        dialog.show();
         HttpUtil.post(PropertiesUtil.getPropertiesURL(BookingTicketActivity.this, ShuttleConstants.URL_GEN_TICKET), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
                 super.onSuccess(statusCode, headers, object);
                 resetBookingTicketData();
                 Toast.makeText(getApplicationContext(), "成功了!", Toast.LENGTH_LONG);
+                dialog.hide();
 
                 Intent intent = new Intent(BookingTicketActivity.this, UserInfoActivity.class);
                 startActivity(intent);
@@ -209,6 +214,7 @@ public class BookingTicketActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject object) {
                 super.onFailure(statusCode, headers, throwable, object);
+                dialog.hide();
                 Toast.makeText(getApplicationContext(), "失败了!", Toast.LENGTH_LONG);
             }
         });
