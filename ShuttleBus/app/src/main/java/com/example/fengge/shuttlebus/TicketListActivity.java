@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by WURY on 1/12/2016.
  */
-public class TicketListActivity extends Activity {
+public class TicketListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -18,6 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ShuttleConstants;
+import com.google.zxing.common.StringUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.utils.HttpUtil;
+import com.utils.PropertiesUtil;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +37,7 @@ import java.util.List;
 /**
  * Created by GUOFR2 on 1/13/2016.
  */
-public class BookingTicketActivity extends Activity {
+public class BookingTicketActivity extends BaseActivity {
 
     private Button onDutyButton;
     private Button offDutyButton;
@@ -36,6 +45,7 @@ public class BookingTicketActivity extends Activity {
     private ListView timeListView;
     private RadioGroup radioGroup;
     private RadioButton temporaryRadioButton;
+    private Button genTicketButton;
     private View selectView;
 
     SimpleAdapter timeAdapter;
@@ -44,6 +54,8 @@ public class BookingTicketActivity extends Activity {
     private String selectStationId;
     private String selectRouteId;
     private String selectDate;
+    private String selectTicketType;
+    private String selectDutyType;
 
     private List<HashMap<String, Object>> routeList = new ArrayList<HashMap<String, Object>>();
     private List<HashMap<String, Object>> timeList = new ArrayList<HashMap<String, Object>>();
@@ -98,8 +110,9 @@ public class BookingTicketActivity extends Activity {
                 "arrow_icon"}, new int[]{R.id.route_icon, R.id.name, R.id.value, R.id.arrow_icon});
         timeListView.setAdapter(timeAdapter);
 
-        radioGroup = (RadioGroup) this.findViewById(R.id.timeType);
+        radioGroup = (RadioGroup) this.findViewById(R.id.ticket_type);
         temporaryRadioButton = (RadioButton) this.findViewById(R.id.temporary);
+        genTicketButton = (Button) this.findViewById(R.id.gen_ticket);
     }
 
     private void initEvent() {
@@ -126,6 +139,7 @@ public class BookingTicketActivity extends Activity {
                 Bundle bundle = new Bundle();
                 bundle.putString("sourceType", sourceType);
                 bundle.putString(ShuttleConstants.STATION_ID, selectStationId);
+                bundle.putString("selectDutyType", selectDutyType);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
             }
@@ -152,15 +166,66 @@ public class BookingTicketActivity extends Activity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.regular) {
                     timeListView.setVisibility(View.INVISIBLE);
+                    selectTicketType = ShuttleConstants.TICKET_TYPE_LONGTIME;
                 } else {
                     timeListView.setVisibility(View.VISIBLE);
+                    selectTicketType = ShuttleConstants.TICKET_TYPE_TEMP;
+                }
+            }
+        });
+        genTicketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = validationData();
+                if (result) {
+                    submitTicket();
+                } else {
+                    Toast.makeText(getApplicationContext(), "请填入所有信息!", Toast.LENGTH_SHORT);
                 }
             }
         });
     }
 
+    private void submitTicket() {
+        RequestParams params = new RequestParams();
+        params.put("userid", 4); // TODO
+        params.put("routeid", Integer.valueOf(selectRouteId));
+        params.put("stationid", Integer.valueOf(selectStationId));
+        params.put("type", selectTicketType);
+        params.put("ridingdate", selectDate);
+
+        HttpUtil.post(PropertiesUtil.getPropertiesURL(BookingTicketActivity.this, ShuttleConstants.URL_GEN_TICKET), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
+                super.onSuccess(statusCode, headers, object);
+                resetBookingTicketData();
+                Toast.makeText(getApplicationContext(), "成功了!", Toast.LENGTH_LONG);
+
+                Intent intent = new Intent(BookingTicketActivity.this, UserInfoActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject object) {
+                super.onFailure(statusCode, headers, throwable, object);
+                Toast.makeText(getApplicationContext(), "失败了!", Toast.LENGTH_LONG);
+            }
+        });
+
+    }
+
+    private boolean validationData() {
+        if (selectStationId == null || selectStationId.isEmpty()) {
+            return false;
+        }
+        if (selectRouteId == null || selectRouteId.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     private String parseDate(int year, int monthOfYear, int dayOfMonth) {
-        selectDate = new StringBuffer("").append(year).append("/").append(monthOfYear).append("/").append(dayOfMonth).toString();
+        selectDate = new StringBuffer("").append(year).append("-").append(monthOfYear).append("-").append(dayOfMonth).toString();
         return selectDate;
     }
 
@@ -170,6 +235,7 @@ public class BookingTicketActivity extends Activity {
         offDutyButton.setTextColor(Color.BLACK);
         offDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();
+        selectDutyType = ShuttleConstants.ON_DUTY;
     }
 
     private void clickOffDutyButton() {
@@ -178,6 +244,7 @@ public class BookingTicketActivity extends Activity {
         onDutyButton.setTextColor(Color.BLACK);
         onDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();
+        selectDutyType = ShuttleConstants.OFF_DUTY;
     }
 
     private void resetBookingTicketData() {
@@ -217,9 +284,6 @@ public class BookingTicketActivity extends Activity {
         View view = routeListView.getChildAt(1);
         TextView textView = (TextView) view.findViewById(R.id.value);
         textView.setText("");
-//                HashMap<String, String> routeMap = (HashMap<String, String>)routeListView.getItemAtPosition(1);
-//                routeMap.put(ShuttleConstants.ROUTE_VALUE, "");
-//                routeAdapter.notifyDataSetChanged();
     }
 
     private void handleSelectRoute(Bundle bundle) {

@@ -23,7 +23,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.ShuttleConstants;
+import com.example.dto.CommonResult;
+import com.example.dto.LoginAuthenticationResult;
 import com.example.fengge.shuttlebus.R;
+import com.example.jason.FastJasonTools;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.gpstracker.GPSTracker;
@@ -120,8 +123,8 @@ public class CaptureActivity extends Activity implements Callback {
 		RequestParams params = new RequestParams();
 		GPSTracker gpsTracker = new GPSTracker(CaptureActivity.this);
 		gpsTracker.getLocation();
-		String domainId = SharePreferenceHelper.getDomainid(CaptureActivity.this);
-		params.put(ShuttleConstants.USER_ID, domainId);
+		String userId = SharePreferenceHelper.getUser(CaptureActivity.this).getId();
+		params.put(ShuttleConstants.USER_ID, userId);
 		params.put(ShuttleConstants.ROUTE_ID, routeId);
 		params.put(ShuttleConstants.LONGITUDE, gpsTracker.getLongitude());
 		params.put(ShuttleConstants.LATITUDE, gpsTracker.getLatitude());
@@ -129,7 +132,8 @@ public class CaptureActivity extends Activity implements Callback {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
 				super.onSuccess(statusCode, headers, object);
-				if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(object.toString())) {
+				CommonResult result = FastJasonTools.getParseBean(object.toString(), CommonResult.class);
+				if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(result.getStatus())) {
 					initBeepSound(true);
 				} else {
 					initBeepSound(false);

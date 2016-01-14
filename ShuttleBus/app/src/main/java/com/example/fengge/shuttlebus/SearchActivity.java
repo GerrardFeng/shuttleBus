@@ -35,7 +35,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
 
     private Calendar calendar;
     private int year, month, day;

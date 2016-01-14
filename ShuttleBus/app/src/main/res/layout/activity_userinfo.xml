@@ -4,19 +4,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/title_layout"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="40dip"
+        android:paddingRight="40dip">
 
         <Button
             android:id="@+id/userType"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
             android:text="@string/user_type" />
 
         <Button
@@ -24,14 +27,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
             android:text="@string/show_tickets" />
-
 
         <Button
             android:id="@+id/userLogout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
             android:text="@string/user_login" />
 
     </LinearLayout>

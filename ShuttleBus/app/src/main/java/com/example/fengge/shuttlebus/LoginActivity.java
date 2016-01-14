@@ -29,7 +29,7 @@ import com.utils.SharePreferenceHelper;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
 
     private EditText userEdit;
     private EditText pwdEdit;
@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
     }
 
     private void doLogin (final String domainid, String pwd) {
-        AsyncHttpClient client = new AsyncHttpClient();
+//        AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.ACCOUNT_DOMAINID, domainid);
         params.put(ShuttleConstants.ACCOUNT_PWD, pwd);

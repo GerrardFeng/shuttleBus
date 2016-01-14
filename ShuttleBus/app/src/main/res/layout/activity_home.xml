@@ -5,102 +5,35 @@
     android:orientation="vertical"
     >
 
+    <include layout="@layout/title_layout"/>
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:paddingLeft="40dip"
+        android:paddingRight="40dip">
 
-        <ImageView
-            android:id="@+id/busIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bus_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/scan_barcode_btn"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="#FF6633"
-            android:text="@string/oocl" />
+            android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
+            android:text="@string/sweep_code_up_bus" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/viewBusTicket"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/shuttle_bus" />
+            android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
+            android:text="@string/show_tickets" />
+
+
     </LinearLayout>
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        >
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            >
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-            <Button
-                android:id="@+id/scan_barcode_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sweep_code_up_bus"
-                android:layout_weight="2"
-                />
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            >
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-            <Button
-                android:id="@+id/viewBusTicket"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/view_bus_ticket"
-                android:layout_weight="2"
-                />
-            <TextView
-                android:text="column11"
-                android:visibility="invisible"
-                android:layout_weight="1"
-                />
-
-        </TableRow>
-    </TableLayout>
-    <TextView
-        android:id="@+id/tv_scan_result"
-        android:layout_width="fill_parent"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:layout_height="wrap_content" />
 </LinearLayout>

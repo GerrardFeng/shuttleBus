@@ -13,9 +13,7 @@ import android.widget.TextView;
 
 import com.zxing.activity.CaptureActivity;
 
-public class HomeActivity extends Activity {
-
-    TextView resultTextView;
+public class HomeActivity extends BaseActivity {
 
     @Override
     @SuppressLint("InlinedApi")
@@ -24,8 +22,6 @@ public class HomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.activity_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        resultTextView = (TextView) this.findViewById(R.id.tv_scan_result);
 
         Button showTicket = (Button)findViewById(R.id.viewBusTicket);
         Button scanBarcode = (Button)findViewById(R.id.scan_barcode_btn);
@@ -48,17 +44,6 @@ public class HomeActivity extends Activity {
                 startActivity(scanBarcodeIntent);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            resultTextView.setText(scanResult);
-        }
     }
 
 }

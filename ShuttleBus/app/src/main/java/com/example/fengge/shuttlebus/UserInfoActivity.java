@@ -29,7 +29,7 @@ import org.json.JSONObject;
 /**
  * Created by WURY on 1/12/2016.
  */
-public class UserInfoActivity extends Activity {
+public class UserInfoActivity extends BaseActivity {
 
     private int selectedUserType = 0;
 
@@ -42,7 +42,6 @@ public class UserInfoActivity extends Activity {
         Button userTypeButton = (Button)findViewById(R.id.userType);
         Button showTickets = (Button)findViewById(R.id.showTickets);
         Button userLogout = (Button)findViewById(R.id.userLogout);
-
 
         userTypeButton.setOnClickListener(new userTypeButtonListener());
         showTickets.setOnClickListener(new showTicketsButtonListener());
@@ -158,9 +157,11 @@ public class UserInfoActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
-            Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
-            startActivity(loginActivity);
+//            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
+//            Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
+//            startActivity(loginActivity);
+            SharePreferenceHelper.setAutoLogin(UserInfoActivity.this, false);
+            ActivityCollector.finishAll();
         }
     }
 
