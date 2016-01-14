@@ -237,6 +237,9 @@ public class BookingTicketActivity extends BaseActivity {
     }
 
     private String parseDate(int year, int monthOfYear, int dayOfMonth) {
+        if (monthOfYear < 10) {
+            return new StringBuffer("").append(year).append("-0").append(monthOfYear).append("-").append(dayOfMonth).toString();
+        }
         return new StringBuffer("").append(year).append("-").append(monthOfYear).append("-").append(dayOfMonth).toString();
     }
 
