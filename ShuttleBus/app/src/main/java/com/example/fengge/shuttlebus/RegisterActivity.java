@@ -58,16 +58,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         setTabSelection(0);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//
-//
-//
-//
-//
-//        Button submitBtn = (Button)findViewById(R.id.submit_regist);
-//        submitBtn.setOnClickListener(new submitRegisterListener());
-
-//        initOnDutyView();
-//        initOffDutyView();
     }
 
     @Override

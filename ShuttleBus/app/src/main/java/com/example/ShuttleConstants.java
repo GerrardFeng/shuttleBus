@@ -18,6 +18,7 @@ public class ShuttleConstants {
     public static String URL_GET_ROUTE = "URL_GET_ROUTE";
 
     public static String URL_CHECK_IN = "URL_CHECK_IN";
+    public static String URL_GEN_TICKET = "URL_GEN_TICKET";
 
     public static String LOGIN_SUCCESS = "success";
 
@@ -48,8 +49,10 @@ public class ShuttleConstants {
     public static String USER_TYPE = "type";
 
     public static String TICKET_ID = "ticketid";
+    public static final String TICKET_TYPE_LONGTIME = "longtime";
 
     public static String URL_BUS_VACANCY = "URL_BUS_VACANCY";
+    public static final String TICKET_TYPE_TEMP = "temp";
 
     public static String SEARCH_DATE = "date";
 
