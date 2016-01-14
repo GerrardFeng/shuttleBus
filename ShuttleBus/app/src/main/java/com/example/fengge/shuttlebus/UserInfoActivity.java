@@ -118,13 +118,13 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void updateUserType(String userType) {
-        String userId = SharePreferenceHelper.getDomainid(UserInfoActivity.this);
+        String userId = SharePreferenceHelper.getUser(UserInfoActivity.this).getId();
         Log.v("UserInfoActivity", userId);
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.USER_ID, userId);
         params.put(ShuttleConstants.USER_TYPE, userType);
-        HttpUtil.get(PropertiesUtil.getPropertiesURL(UserInfoActivity.this, ShuttleConstants.URL_GET_USER_INFO), params, new JsonHttpResponseHandler() {
+        HttpUtil.post(PropertiesUtil.getPropertiesURL(UserInfoActivity.this, ShuttleConstants.URL_UPDATE_USER_TYPE), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
                 super.onSuccess(statusCode, headers, object);
