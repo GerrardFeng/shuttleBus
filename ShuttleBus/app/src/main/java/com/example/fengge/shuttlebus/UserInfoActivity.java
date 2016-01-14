@@ -53,7 +53,7 @@ public class UserInfoActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            String userId = SharePreferenceHelper.getDomainid(UserInfoActivity.this);
+            String userId = SharePreferenceHelper.getUser(UserInfoActivity.this).getId();
             Log.v("UserInfoActivity", userId);
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params = new RequestParams();

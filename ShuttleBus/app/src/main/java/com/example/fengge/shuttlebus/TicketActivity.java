@@ -142,7 +142,7 @@ public class TicketActivity extends Activity {
         TextView stopOfFirstTicket = (TextView)findViewById(R.id.stopOfFirstTicket);
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);
-        typeOfFirstTicket.setText("类型 : " + ticketResult.getType());
+        typeOfFirstTicket.setText("类型 : " + ticketResult.getUserType());
     }
     private void showTips(int msg, boolean isLong) {
         Toast tTips;

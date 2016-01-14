@@ -2,10 +2,14 @@ package com.example.dto;
 
 public class TicketResult {
 	
+	private Long ticketId;
 	private String username;
+	private String userType;
 	private String route;
+	private String routeType;
 	private String station;
-	private String type;
+	private String ticketType;
+	private String tempRidingDate;
 	
 	public String getUsername() {
 		return username;
@@ -25,11 +29,37 @@ public class TicketResult {
 	public void setStation(String station) {
 		this.station = station;
 	}
-	public String getType() {
-		return type;
+	public String getUserType() {
+		return userType;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
+	public String getRouteType() {
+		return routeType;
+	}
+	public void setRouteType(String routeType) {
+		this.routeType = routeType;
+	}
+	public String getTicketType() {
+		return ticketType;
+	}
+	public void setTicketType(String ticketType) {
+		this.ticketType = ticketType;
+	}
+	public String getTempRidingDate() {
+		return tempRidingDate;
+	}
+	public void setTempRidingDate(String tempRidingDate) {
+		this.tempRidingDate = tempRidingDate;
+	}
+	public Long getTicketId() {
+		return ticketId;
+	}
+	public void setTicketId(Long ticketId) {
+		this.ticketId = ticketId;
+	}
+	
+	
 
 }

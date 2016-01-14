@@ -49,7 +49,7 @@ public class TicketListActivity extends Activity {
         setContentView(R.layout.ticket_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        String userId = SharePreferenceHelper.getDomainid(TicketListActivity.this);
+        String userId = SharePreferenceHelper.getUser(TicketListActivity.this).getId();
         Log.v("TicketListActivity",userId);
         Log.v("hustzw", "ONCLICK");
 
@@ -109,9 +109,9 @@ public class TicketListActivity extends Activity {
             TextView textView1 = new TextView(this);
             textView1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView1.setText("路线： " + ticket.getRoute().toString() + "\n" +
-                    "站点： " + ticket.getStation().toString() + "\n" +
-                    "类型： " + ticket.getType().toString());
+            textView1.setText("路线： " + ticket.getRoute() + "\n" +
+                    "站点： " + ticket.getStation() + "\n" +
+                    "类型： " + ticket.getUserType() + (ticket.getTempRidingDate() != null ? ticket.getTempRidingDate() : ""));
             textView1.setBackgroundResource(R.drawable.shape);
             linearLayout.addView(textView1);
         }
