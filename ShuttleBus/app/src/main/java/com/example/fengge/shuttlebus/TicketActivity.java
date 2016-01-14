@@ -115,6 +115,8 @@ public class TicketActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                showTips(R.string.server_not_avaiable, false);
+                mProgress.dismiss();
             }
 
 

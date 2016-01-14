@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:textSize="19sp"
-            android:text="姓名 : Elsa"/>
+            android:text="姓名 : "/>
 
         <TextView
             android:id="@+id/routeOfFirstTicket"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:textSize="19sp"
-            android:text="路线 : 上班No.1"/>
+            android:text="路线 : "/>
 
         <TextView
             android:id="@+id/stopOfFirstTicket"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:textSize="19sp"
-            android:text="站点 : 海怡湾畔"/>
+            android:text="站点 : "/>
 
         <TextView
             android:id="@+id/typeOfFirstTicket"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:textSize="19sp"
-            android:text="类型 : 长期预定"/>
+            android:text="类型 : "/>
 
     </LinearLayout>
 
