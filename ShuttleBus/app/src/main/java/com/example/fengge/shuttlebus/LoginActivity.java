@@ -19,6 +19,7 @@ import com.example.dto.LoginAuthenticationResult;
 import com.example.jason.FastJasonTools;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.utils.CustomProgressDialog;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
 import com.utils.SharePreferenceHelper;
@@ -30,7 +31,7 @@ public class LoginActivity extends BaseActivity {
 
     private EditText userEdit;
     private EditText pwdEdit;
-    private ProgressDialog mProgress;
+//    private ProgressDialog mProgress;
 
 
     CheckBox rememberPwdCb;
@@ -81,16 +82,21 @@ public class LoginActivity extends BaseActivity {
                 showTips(LoginActivity.this, R.string.account_has_empty, false);
                 return;
             }
-            mProgress = new ProgressDialog(LoginActivity.this);
-            mProgress.setTitle(R.string.login_loading);
-            mProgress.setMessage(getResources().getString(R.string.please_wait));
-            mProgress.show();
+//            mProgress = new ProgressDialog(LoginActivity.this);
+//            mProgress.setTitle(R.string.login_loading);
+//            mProgress.setMessage(getResources().getString(R.string.please_wait));
+//            mProgress.show();
+//
+
             doLogin(domainId, pwd);
             processSettingForLogin();
         }
     }
 
     private void doLogin (final String domainid, String pwd) {
+        final CustomProgressDialog progressLogin = new CustomProgressDialog(LoginActivity.this);
+        progressLogin.show();
+
 //        AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.ACCOUNT_DOMAINID, domainid);
@@ -109,21 +115,21 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     showTips(LoginActivity.this, R.string.account_error, false);
                 }
-                if (mProgress != null){
-                    mProgress.dismiss();
-                }
+                progressLogin.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(LoginActivity.this, R.string.server_not_avaiable, false);
-                mProgress.dismiss();
+                progressLogin.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                showTips(LoginActivity.this, R.string.server_not_avaiable, false);
+                progressLogin.hide();
             }
         });
     }
