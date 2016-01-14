@@ -23,6 +23,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
+import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -188,7 +189,7 @@ public class BookingTicketActivity extends BaseActivity {
 
     private void submitTicket() {
         RequestParams params = new RequestParams();
-        params.put("userid", 4); // TODO
+        params.put("userid", SharePreferenceHelper.getUser(getApplicationContext()).getId());
         params.put("routeid", Integer.valueOf(selectRouteId));
         params.put("stationid", Integer.valueOf(selectStationId));
         params.put("type", selectTicketType);
