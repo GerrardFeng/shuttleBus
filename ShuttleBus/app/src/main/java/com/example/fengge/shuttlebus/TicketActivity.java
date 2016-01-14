@@ -102,7 +102,7 @@ public class TicketActivity extends BaseActivity {
         mProgress.setMessage(getResources().getString(R.string.please_wait));
         mProgress.show();
 
-        params.put(ShuttleConstants.USER_ID, 4);
+        params.put(ShuttleConstants.USER_ID, busUser.getId());
 
         HttpUtil.get(PropertiesUtil.getPropertiesURL(TicketActivity.this, ShuttleConstants.SHOW_TICKET), params, new JsonHttpResponseHandler() {
             @Override
