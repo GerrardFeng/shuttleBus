@@ -49,4 +49,8 @@ public class ShuttleConstants {
 
     public static String TICKET_ID = "ticketid";
 
+    public static String URL_BUS_VACANCY = "URL_BUS_VACANCY";
+
+    public static String SEARCH_DATE = "date";
+
 }

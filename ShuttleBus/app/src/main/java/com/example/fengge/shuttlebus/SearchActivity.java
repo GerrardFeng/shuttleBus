@@ -2,14 +2,32 @@ package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
+import com.example.ShuttleConstants;
+import com.example.dto.LoginAuthenticationResult;
+import com.example.dto.RouteInfo;
+import com.example.jason.FastJasonTools;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.utils.HttpUtil;
+import com.utils.PropertiesUtil;
+import com.utils.SharePreferenceHelper;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +38,7 @@ public class SearchActivity extends Activity {
 
     private Calendar calendar;
     private int year, month, day;
+    private List<RouteInfo> currentRouteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +46,7 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        currentRouteList = new ArrayList<RouteInfo>();
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
@@ -34,17 +54,20 @@ public class SearchActivity extends Activity {
         List<HashMap<String, Object>> dateData = initDateData(year, month, day);
         initModifyDateListViewEvent(dateData);
 
-        List<HashMap<String, Object>> searchData = initSearchData();
+        List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
         initSearchListViewEvent(searchData);
+        getBusVacancy (year, month, day);
     }
 
-    private List<HashMap<String, Object>> initSearchData() {
+    private List<HashMap<String, Object>> initSearchData(List<RouteInfo> currentRouteList) {
         List<HashMap<String, Object>> dataList = new ArrayList<HashMap<String, Object>>();
-        for(int i=0; i<5; i++) {
-            HashMap<String, Object> item = new HashMap<String, Object>();
-            item.put("route", "上班路线：10");
-            item.put("vacant_site", "剩余空位：50");
-            dataList.add(item);
+        if(currentRouteList.size() > 0){
+            for(RouteInfo routeInfo : currentRouteList) {
+                HashMap<String, Object> item = new HashMap<String, Object>();
+                item.put("route", "上班路线：" + routeInfo.getId());
+                item.put("vacant_site", "剩余空位：" + routeInfo.getBalance());
+                dataList.add(item);
+            }
         }
         return dataList;
     }
@@ -87,6 +110,7 @@ public class SearchActivity extends Activity {
                 public void onDateSet(DatePicker dateView, int currentYear, int currentMonth, int currentDay) {
                     List<HashMap<String, Object>> dateData = initDateData(currentYear, currentMonth + 1, currentDay);
                     initModifyDateListViewEvent(dateData);
+                    getBusVacancy(currentYear, currentMonth + 1, currentDay);
                     // TODO refresh data
 
                 }
@@ -95,4 +119,39 @@ public class SearchActivity extends Activity {
 
         }
     }
+
+    private void getBusVacancy (int year, int month, int day) {
+        String searchDate;
+        if(month > 9){
+            searchDate =  year + "-" + month + "-" + day;
+        }else{
+            searchDate =  year + "-0" + month + "-" + day;
+        }
+
+        RequestParams params = new RequestParams();
+        params.put(ShuttleConstants.SEARCH_DATE, searchDate);
+        HttpUtil.get(PropertiesUtil.getPropertiesURL(SearchActivity.this, ShuttleConstants.URL_BUS_VACANCY), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray object) {
+                super.onSuccess(statusCode, headers, object);
+                Log.v("SearchActivity", object.toString());
+                currentRouteList = FastJasonTools.getParseBeanArray(object.toString(), RouteInfo.class);
+                List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
+                initSearchListViewEvent(searchData);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(SearchActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(SearchActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
