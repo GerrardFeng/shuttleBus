@@ -32,6 +32,7 @@ import org.json.JSONObject;
 public class UserInfoActivity extends BaseActivity {
 
     private int selectedUserType = 0;
+    private Dialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,35 +87,39 @@ public class UserInfoActivity extends BaseActivity {
         if("shift".equals(userType)) {
             index = 1;
         }
-        Dialog alertDialog = new AlertDialog.Builder(UserInfoActivity.this).
-                setTitle("修改用户类型")
-                .setSingleChoiceItems(arrayUserType, index, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedUserType = which;
-                    }
-                }).
-                        setPositiveButton("确认", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+        if(alertDialog == null) {
+            Dialog alertDialog = new AlertDialog.Builder(UserInfoActivity.this).
+                    setTitle("修改用户类型")
+                    .setSingleChoiceItems(arrayUserType, index, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedUserType = which;
+                        }
+                    }).
+                            setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 //                                Toast.makeText(UserInfoActivity.this, arrayUserType[selectedUserType], Toast.LENGTH_SHORT).show();
-                                String tpye = "regular";
-                                if (selectedUserType == 1) {
-                                    tpye = "shift";
+                                    String tpye = "regular";
+                                    if (selectedUserType == 1) {
+                                        tpye = "shift";
+                                    }
+                                    Log.v("UserInfoActivity", tpye);
+                                    updateUserType(tpye);
                                 }
-                                Log.v("UserInfoActivity", tpye);
-                                updateUserType(tpye);
-                            }
-                        }).
-                        setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-                            }
-                        }).
-                        create();
-        alertDialog.show();
+                            }).
+                            setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+                                }
+                            }).
+                            create();
+            alertDialog.show();
+        }
+
     }
 
     private void updateUserType(String userType) {
