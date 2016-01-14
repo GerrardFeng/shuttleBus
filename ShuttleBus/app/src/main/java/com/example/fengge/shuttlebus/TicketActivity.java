@@ -98,7 +98,7 @@ public class TicketActivity extends BaseActivity {
     private void getTicket () {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-//        BusUser busUser = SharePreferenceHelper.getUser(TicketActivity.this);
+        BusUser busUser = SharePreferenceHelper.getUser(TicketActivity.this);
 
         mProgress = new ProgressDialog(TicketActivity.this);
         mProgress.setTitle(R.string.loading_tick);

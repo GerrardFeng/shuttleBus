@@ -21,7 +21,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:textSize="15dp"
-            android:text="Ticket 列表" />
+            android:text="Ticket 列表"
+            android:layout_marginBottom="20dp"/>
 
         <LinearLayout
             android:id="@+id/ticketListLayout"
