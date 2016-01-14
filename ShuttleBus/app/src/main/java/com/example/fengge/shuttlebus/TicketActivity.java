@@ -131,10 +131,10 @@ public class TicketActivity extends BaseActivity {
         });
     }
     private void renderTicket(TicketResult ticketResult){
-        TextView nameOfFirstTicket = (TextView)findViewById(R.id.nameOfFirstTicket);
-        nameOfFirstTicket.setText("姓名 ： " + ticketResult.getUsername());
         TextView routeOfFirstTicket = (TextView)findViewById(R.id.routeOfFirstTicket);
-        routeOfFirstTicket.setText("路线 : " + ticketResult.getRoute());
+        routeOfFirstTicket.setText("路线 : " + (ticketResult.getRouteType() == ShuttleConstants.ON_DUTY ? "上班" : "下班"));
+        TextView routeNumber = (TextView)findViewById(R.id.bus_number_icon);
+        routeNumber.setText(ticketResult.getRoute());
         TextView stopOfFirstTicket = (TextView)findViewById(R.id.stopOfFirstTicket);
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);

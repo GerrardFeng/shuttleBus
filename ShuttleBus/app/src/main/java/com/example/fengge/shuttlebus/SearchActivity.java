@@ -61,7 +61,7 @@ public class SearchActivity extends BaseActivity {
         if(currentRouteList.size() > 0){
             for(RouteInfo routeInfo : currentRouteList) {
                 HashMap<String, Object> item = new HashMap<String, Object>();
-                item.put("route", "上班路线：" + routeInfo.getId());
+                item.put("route", "上班路线：" + routeInfo.getName());
                 item.put("vacant_site", "剩余空位：" + routeInfo.getBalance());
                 dataList.add(item);
             }
