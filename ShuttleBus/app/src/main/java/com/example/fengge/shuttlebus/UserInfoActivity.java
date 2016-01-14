@@ -41,10 +41,11 @@ public class UserInfoActivity extends Activity {
 
         Button userTypeButton = (Button)findViewById(R.id.userType);
         Button showTickets = (Button)findViewById(R.id.showTickets);
-
+        Button userLogout = (Button)findViewById(R.id.userLogout);
 
         userTypeButton.setOnClickListener(new userTypeButtonListener());
         showTickets.setOnClickListener(new showTicketsButtonListener());
+        userLogout.setOnClickListener(new userLogoutButtonListener());
     }
 
     class userTypeButtonListener implements View.OnClickListener{
@@ -149,6 +150,16 @@ public class UserInfoActivity extends Activity {
         public void onClick(View v) {
             Intent ticketsIntent = new Intent(UserInfoActivity.this, TicketListActivity.class);
             startActivity(ticketsIntent);
+        }
+    }
+
+    class userLogoutButtonListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            SharePreferenceHelper.saveUser(UserInfoActivity.this, null);
+            Intent loginActivity = new Intent(UserInfoActivity.this, LoginActivity.class);
+            startActivity(loginActivity);
         }
     }
 
