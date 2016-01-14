@@ -6,9 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -127,6 +129,12 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
         TabWidget tw = tabHost.getTabWidget();
         tw.setBackgroundResource(android.R.drawable.screen_background_dark);
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                processTabChanged(tabId);
+            }
+        });
 
         tabHost.setCurrentTab(0);
 
@@ -154,26 +162,47 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         return super.onOptionsItemSelected(item);
     }
 
+    public void processTabChanged(String tabId) {
+        clearTabBackgroundColor();
+        View currentTabView = tabHost.getCurrentTabView();
+        ImageView icon = (ImageView) currentTabView.findViewById(R.id.icon);
+        TextView title = (TextView) currentTabView.findViewById(R.id.title);
+        title.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
+
+        Log.v("tabId", tabId);
+        if (tabId.equalsIgnoreCase("Home")) {
+            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_home)
+                    .colorRes(android.R.color.holo_blue_bright)
+                    .actionBarSize());
+        } else if (tabId.equalsIgnoreCase("Search")) {
+            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_search)
+                    .colorRes(android.R.color.holo_blue_bright)
+                    .actionBarSize());
+        } else if (tabId.equalsIgnoreCase("Register")) {
+            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_tasks)
+                    .colorRes(android.R.color.holo_blue_bright)
+                    .actionBarSize());
+        } else {
+            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_user)
+                    .colorRes(android.R.color.holo_blue_bright)
+                    .actionBarSize());
+        }
+    }
+
+    private void clearTabBackgroundColor() {
+        int tabCount = tabHost.getTabWidget().getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            ImageView icon = (ImageView)tabHost.getTabWidget().getChildTabViewAt(i).findViewById(R.id.icon);
+            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_home)
+                    .colorRes(android.R.color.white)
+                    .actionBarSize());
+            TextView title = (TextView) tabHost.getTabWidget().getChildTabViewAt(i).findViewById(R.id.title);
+            title.setTextColor(getResources().getColor(android.R.color.white));
+        }
+    }
+
     @Override
     public void onTabChanged(String tabId) {
-
-//        View currentTabView = tabHost.getCurrentTabView();
-//        ImageView icon = (ImageView) currentTabView.findViewById(R.id.icon);
-//        TextView title = (TextView) currentTabView.findViewById(R.id.title);
-//        title.setTextColor(android.R.color.holo_blue_bright);
-//
-//        if (tabId.equalsIgnoreCase("Home")) {
-//            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_home)
-//                    .colorRes(android.R.color.holo_blue_bright)
-//                    .actionBarSize());
-//        } else if (tabId.equalsIgnoreCase("Search")) {
-//            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_search)
-//                    .colorRes(android.R.color.holo_blue_bright)
-//                    .actionBarSize());
-//        } else if (tabId.equalsIgnoreCase("Register")) {
-//            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_tasks)
-//                    .colorRes(android.R.color.holo_blue_bright)
-//                    .actionBarSize());
-//        }
+        Log.v("onTabChanged", tabId);
     }
 }
