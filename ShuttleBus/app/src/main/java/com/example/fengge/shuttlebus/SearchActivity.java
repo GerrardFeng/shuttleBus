@@ -114,7 +114,6 @@ public class SearchActivity extends BaseActivity {
                     List<HashMap<String, Object>> dateData = initDateData(currentYear, currentMonth + 1, currentDay);
                     initModifyDateListViewEvent(dateData);
                     getBusVacancy(currentYear, currentMonth + 1, currentDay);
-                    // TODO refresh data
 
                 }
             },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ).show();

@@ -119,13 +119,13 @@ public class CaptureActivity extends Activity implements Callback {
 		super.onDestroy();
 	}
 
-	private void checkScanCodeInfo (String routeId) {
+	private void checkScanCodeInfo (String routeName) {
 		RequestParams params = new RequestParams();
 		GPSTracker gpsTracker = new GPSTracker(CaptureActivity.this);
 		gpsTracker.getLocation();
 		String userId = SharePreferenceHelper.getUser(CaptureActivity.this).getId();
 		params.put(ShuttleConstants.USER_ID, userId);
-		params.put(ShuttleConstants.ROUTE_ID, routeId);
+		params.put(ShuttleConstants.ROUTE_ID, routeName);
 		params.put(ShuttleConstants.LONGITUDE, gpsTracker.getLongitude());
 		params.put(ShuttleConstants.LATITUDE, gpsTracker.getLatitude());
 		HttpUtil.post(PropertiesUtil.getPropertiesURL(CaptureActivity.this, ShuttleConstants.SCAN_CODE), params, new JsonHttpResponseHandler() {

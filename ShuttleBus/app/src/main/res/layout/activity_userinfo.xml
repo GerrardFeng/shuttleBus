@@ -3,43 +3,34 @@
     xmlns:flatui="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <include layout="@layout/title_layout"/>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dip"
-        android:paddingLeft="40dip"
-        android:paddingRight="40dip">
 
-        <Button
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <ListView
             android:id="@+id/userType"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#be573f"
-            android:textColor="@android:color/white"
-            android:text="@string/user_type" />
+            android:layout_marginTop="20dp"
+            android:layout_height="40dp"></ListView>
 
-        <Button
+        <ListView
             android:id="@+id/showTickets"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#be573f"
-            android:textColor="@android:color/white"
-            android:text="@string/show_tickets" />
+            android:layout_height="40dp"></ListView>
 
-        <Button
+
+        <ListView
             android:id="@+id/userLogout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="#be573f"
-            android:textColor="@android:color/white"
-            android:text="@string/user_login" />
-
-    </LinearLayout>
-
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="@string/user_login"
+            android:layout_height="40dp"></ListView>
+        </LinearLayout>
 </LinearLayout>
