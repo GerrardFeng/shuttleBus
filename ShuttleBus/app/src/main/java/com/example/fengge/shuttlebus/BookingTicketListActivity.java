@@ -47,8 +47,6 @@ public class BookingTicketListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_ticket_list);
         initData();
-//        initView();
-//        initEvent();
     }
 
 
@@ -67,34 +65,26 @@ public class BookingTicketListActivity extends Activity {
     }
 
     private void initRouteList(String stationId) {
-        Log.v("ZZZZZZ", stationId + "");
-        getRouteData(stationId);
-    }
-
-    private void getRouteData(String stationId) {
-        AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("stationid", stationId);
         HttpUtil.get(PropertiesUtil.getPropertiesURL(BookingTicketListActivity.this, ShuttleConstants.URL_GET_ROUTE), params, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray arry) {
-                super.onSuccess(statusCode, headers, arry);
-
-                Log.v("Statiion route", arry.toString());
-                buidRouteDatalist(arry.toString());
+            public void onSuccess(int statusCode, Header[] headers, JSONArray array) {
+                super.onSuccess(statusCode, headers, array);
+                buidRouteDatalist(array.toString());
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray arry) {
-                super.onFailure(statusCode, headers, throwable, arry);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray array) {
+                super.onFailure(statusCode, headers, throwable, array);
+                initView();
             }
         });
-
     }
 
     private void buidRouteDatalist(String str) {
         List<RouteInfo> routes = FastJasonTools.getParseBeanArray(str, RouteInfo.class);
-        buildListFromRoutess(routes);
+        buildListFromRoutes(routes);
         initView();
         initEvent();
     }
@@ -127,7 +117,6 @@ public class BookingTicketListActivity extends Activity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 initView();
-//                initEvent();
             }
 
         });
@@ -143,11 +132,11 @@ public class BookingTicketListActivity extends Activity {
         }
     }
 
-    private void buildListFromRoutess(List<RouteInfo> routes) {
+    private void buildListFromRoutes(List<RouteInfo> routes) {
         list = new ArrayList<HashMap<String, Object>>();
         for (RouteInfo route : routes) {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("route_icon", R.drawable.stop);
+            map.put("route_icon", R.drawable.route);
             map.put("id", route.getId());
             map.put("name", route.getName());
             list.add(map);
