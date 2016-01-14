@@ -26,8 +26,8 @@
 
         <LinearLayout
             android:id="@+id/ticketListLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:layout_gravity="center_vertical|center_horizontal">
 

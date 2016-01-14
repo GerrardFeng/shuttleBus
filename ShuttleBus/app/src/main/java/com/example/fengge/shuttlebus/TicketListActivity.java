@@ -86,9 +86,9 @@ public class TicketListActivity extends BaseActivity {
 
         for(TicketResult ticket : allTickets) {
             TextView textView1 = new TextView(this);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            llp.setMargins(0, 0, 0, 10);
+            llp.setMargins(5, 0, 5, 10);
             textView1.setLayoutParams(llp);
             textView1.setText("路线： " + ticket.getRoute() + "\n" +
                     "站点： " + ticket.getStation() + "\n" +
