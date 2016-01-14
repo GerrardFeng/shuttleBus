@@ -42,7 +42,7 @@
 
     <string name="account_error">账号密码不正确。</string>
     <string name="account_has_empty">请输入账号密码。</string>
-
+    <string name="operation_failure">操作失败，请稍后再试。</string>
     <string name="server_not_avaiable">服务器忙，请稍后再试。</string>
 
     <string name="login_loading">Signing in...</string>

@@ -2,6 +2,8 @@ package com.example.dto;
 
 public class BusUser {
 
+	private String id;
+
 	private String domainId;
 	
 	private String username;
@@ -19,6 +21,15 @@ public class BusUser {
 //	private List<RidingRecord> ridingRecords = new ArrayList<RidingRecord>();
 	
 //	private List<Ticket> tickets = new ArrayList<Ticket>();
+
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;

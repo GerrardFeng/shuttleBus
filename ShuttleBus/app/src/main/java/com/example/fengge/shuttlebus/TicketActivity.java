@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.dd.CircularProgressButton;
 import com.example.ShuttleConstants;
 import com.example.dto.BusUser;
+import com.example.dto.CommonResult;
+import com.example.dto.LoginAuthenticationResult;
 import com.example.dto.TicketResult;
 import com.example.jason.FastJasonTools;
 import com.loopj.android.http.AsyncHttpClient;
@@ -45,39 +48,47 @@ public class TicketActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (circularButton1.getProgress() == 0) {
-                    Toast.makeText(getApplicationContext(), "您还没有任何票据信息", Toast.LENGTH_LONG).show();
-                    circularButton1.setProgress(50);
-                    if (circularButton1.getProgress() == 50) {
-                        circularButton1.setProgress(100);
-                    }
+                    doCheckIn(circularButton1);
                 }
             }
         });
-
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void doCheckIn (final CircularProgressButton circularButton1) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        String ticketid = "4";
+        String longitude = "23.5654";
+        String latitude = "24.5365";
+        params.put(ShuttleConstants.TICKET_ID, ticketid);
+        params.put(ShuttleConstants.LONGITUDE, longitude);
+        params.put(ShuttleConstants.LATITUDE, latitude);
+        circularButton1.setProgress(50);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        HttpUtil.post(PropertiesUtil.getPropertiesURL(TicketActivity.this, ShuttleConstants.URL_CHECK_IN), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
+                super.onSuccess(statusCode, headers, object);
 
-        return super.onOptionsItemSelected(item);
+                Log.v("HUSZW", object.toString());
+                CommonResult result = FastJasonTools.getParseBean(object.toString(), CommonResult.class);
+                if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(result.getStatus())){
+                    if (circularButton1.getProgress() == 50) {
+                        circularButton1.setProgress(100);
+                    }
+                } else {
+                    showTips(R.string.operation_failure, false);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                showTips(R.string.server_not_avaiable, false);
+                mProgress.dismiss();
+            }
+        });
     }
 
 
@@ -91,7 +102,8 @@ public class TicketActivity extends Activity {
         mProgress.setMessage(getResources().getString(R.string.please_wait));
         mProgress.show();
 
-        params.put(ShuttleConstants.USER_ID, busUser.getDomainId());
+        params.put(ShuttleConstants.USER_ID, 4);
+
         HttpUtil.get(PropertiesUtil.getPropertiesURL(TicketActivity.this, ShuttleConstants.SHOW_TICKET), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
