@@ -56,4 +56,7 @@ public class ShuttleConstants {
 
     public static String SEARCH_DATE = "date";
 
+    public static String ON_DUTY = "on";
+    public static String OFF_DUTY = "off";
+
 }

@@ -55,6 +55,7 @@ public class BookingTicketActivity extends Activity {
     private String selectRouteId;
     private String selectDate;
     private String selectTicketType;
+    private String selectDutyType;
 
     private List<HashMap<String, Object>> routeList = new ArrayList<HashMap<String, Object>>();
     private List<HashMap<String, Object>> timeList = new ArrayList<HashMap<String, Object>>();
@@ -138,6 +139,7 @@ public class BookingTicketActivity extends Activity {
                 Bundle bundle = new Bundle();
                 bundle.putString("sourceType", sourceType);
                 bundle.putString(ShuttleConstants.STATION_ID, selectStationId);
+                bundle.putString("selectDutyType", selectDutyType);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 1);
             }
@@ -233,6 +235,7 @@ public class BookingTicketActivity extends Activity {
         offDutyButton.setTextColor(Color.BLACK);
         offDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();
+        selectDutyType = ShuttleConstants.ON_DUTY;
     }
 
     private void clickOffDutyButton() {
@@ -241,6 +244,7 @@ public class BookingTicketActivity extends Activity {
         onDutyButton.setTextColor(Color.BLACK);
         onDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();
+        selectDutyType = ShuttleConstants.OFF_DUTY;
     }
 
     private void resetBookingTicketData() {

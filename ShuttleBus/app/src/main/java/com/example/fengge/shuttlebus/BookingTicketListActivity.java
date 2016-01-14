@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ShuttleConstants;
 import com.example.dto.RouteInfo;
@@ -39,6 +41,7 @@ public class BookingTicketListActivity extends Activity {
     private TextView textView;
     private Intent intent;
     private String sourceType;
+    private String dutyType;
 
     private SimpleAdapter adapter;
 
@@ -54,6 +57,7 @@ public class BookingTicketListActivity extends Activity {
         intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         sourceType = bundle.getString("sourceType");
+        dutyType = bundle.getString("selectDutyType");
 
         if (SourceType.ROUTE.getName().equals(sourceType)) {
             String stationId = (String) bundle.get(ShuttleConstants.STATION_ID);
@@ -87,6 +91,9 @@ public class BookingTicketListActivity extends Activity {
         buildListFromRoutes(routes);
         initView();
         initEvent();
+        if(list.size() == 0) {
+            Toast.makeText(getApplicationContext(), "没有路线经过此站点，请重新选择!", Toast.LENGTH_SHORT);
+        }
     }
 
     private void initStationList() {
@@ -135,11 +142,13 @@ public class BookingTicketListActivity extends Activity {
     private void buildListFromRoutes(List<RouteInfo> routes) {
         list = new ArrayList<HashMap<String, Object>>();
         for (RouteInfo route : routes) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("route_icon", R.drawable.route);
-            map.put("id", route.getId());
-            map.put("name", route.getName());
-            list.add(map);
+            if(dutyType.equalsIgnoreCase(route.getType())){
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("route_icon", R.drawable.route);
+                map.put("id", route.getId());
+                map.put("name", route.getName());
+                list.add(map);
+            }
         }
     }
 
