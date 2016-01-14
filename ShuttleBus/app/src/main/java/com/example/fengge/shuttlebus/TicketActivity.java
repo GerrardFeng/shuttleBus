@@ -58,6 +58,7 @@ public class TicketActivity extends BaseActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
+        //TODO getValue
         String ticketId = "4";
         String longitude = "23.5654";
         String latitude = "24.5365";
@@ -78,7 +79,8 @@ public class TicketActivity extends BaseActivity {
                         circularButton1.setProgress(100);
                     }
                 } else {
-                    showTips(R.string.operation_failure, false);
+                    showTips(R.string.has_not_ticket, false);
+                    circularButton1.setProgress(0);
                 }
             }
 
@@ -86,6 +88,7 @@ public class TicketActivity extends BaseActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(R.string.server_not_avaiable, false);
+                circularButton1.setProgress(0);
                 mProgress.dismiss();
             }
         });
@@ -95,7 +98,7 @@ public class TicketActivity extends BaseActivity {
     private void getTicket () {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        BusUser busUser = SharePreferenceHelper.getUser(TicketActivity.this);
+//        BusUser busUser = SharePreferenceHelper.getUser(TicketActivity.this);
 
         mProgress = new ProgressDialog(TicketActivity.this);
         mProgress.setTitle(R.string.loading_tick);
@@ -112,7 +115,7 @@ public class TicketActivity extends BaseActivity {
                     TicketResult ticketResult = FastJasonTools.getParseBean(object.toString(), TicketResult.class);
                     renderTicket(ticketResult);
                 } else {
-
+                    showTips(R.string.has_not_ticket, false);
                 }
                 mProgress.dismiss();
             }

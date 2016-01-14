@@ -101,9 +101,9 @@ public class BookingTicketListActivity extends BaseActivity {
     }
 
     private void initStationList() {
-        String url = "http://chenja17-w7.corp.oocl.com:8088/sba-webapp/api/mobile/getallstations";
+//        String url = "http://chenja17-w7.corp.oocl.com:8088/sba-webapp/api/mobile/getallstations";
         final List<Station> stations = new ArrayList<Station>();
-        HttpUtil.get(url, new JsonHttpResponseHandler() {
+        HttpUtil.get(PropertiesUtil.getPropertiesURL(BookingTicketListActivity.this, ShuttleConstants.URL_GET_ALL_STATION), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray object) {
 
