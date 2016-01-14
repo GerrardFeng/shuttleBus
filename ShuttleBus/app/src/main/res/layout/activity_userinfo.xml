@@ -31,6 +31,14 @@
             android:textColor="@android:color/white"
             android:text="@string/show_tickets" />
 
+        <Button
+            android:id="@+id/userLogout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#be573f"
+            android:textColor="@android:color/white"
+            android:text="@string/user_login" />
 
     </LinearLayout>
 
