@@ -1,6 +1,7 @@
 package com.example.fengge.shuttlebus;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,10 @@ public class ActivityCollector {
 
     public static void finishAll() {
         for (Activity activity : activities) {
+
             if (!activity.isFinishing()) {
-                activity.finish();
+                if(!activity.getComponentName().getClassName().equalsIgnoreCase(LoginActivity.class.getName()))
+                    activity.finish();
             }
         }
     }
