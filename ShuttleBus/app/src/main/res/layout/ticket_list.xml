@@ -14,19 +14,22 @@
         android:background="#ffffff"
         android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/routeType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:textSize="15dp"
+            android:text="Ticket 列表" />
+
         <LinearLayout
             android:id="@+id/ticketListLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
-            <TextView
-                android:id="@+id/routeType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:textSize="15dp"
-                android:text="Ticket 列表" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical|center_horizontal">
+
         </LinearLayout>
 
     </LinearLayout>
