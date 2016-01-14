@@ -1,23 +1,15 @@
 package com.example.fengge.shuttlebus;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.example.ShuttleConstants;
-import com.example.dto.BusUser;
 import com.example.dto.CommonResult;
-import com.example.dto.LoginAuthenticationResult;
 import com.example.dto.TicketResult;
 import com.example.jason.FastJasonTools;
 import com.loopj.android.http.AsyncHttpClient;
@@ -25,7 +17,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
-import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -79,7 +70,7 @@ public class TicketActivity extends BaseActivity {
                         circularButton1.setProgress(100);
                     }
                 } else {
-                    showTips(R.string.has_not_ticket, false);
+                    showTips(TicketActivity.this, R.string.has_not_ticket, false);
                     circularButton1.setProgress(0);
                 }
             }
@@ -87,7 +78,7 @@ public class TicketActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                showTips(R.string.server_not_avaiable, false);
+                showTips(TicketActivity.this, R.string.server_not_avaiable, false);
                 circularButton1.setProgress(0);
                 mProgress.dismiss();
             }
@@ -115,7 +106,7 @@ public class TicketActivity extends BaseActivity {
                     TicketResult ticketResult = FastJasonTools.getParseBean(object.toString(), TicketResult.class);
                     renderTicket(ticketResult);
                 } else {
-                    showTips(R.string.has_not_ticket, false);
+                    showTips(TicketActivity.this, R.string.has_not_ticket, false);
                 }
                 mProgress.dismiss();
             }
@@ -123,14 +114,14 @@ public class TicketActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                showTips(R.string.server_not_avaiable, false);
+                showTips(TicketActivity.this, R.string.server_not_avaiable, false);
                 mProgress.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                showTips(R.string.server_not_avaiable, false);
+                showTips(TicketActivity.this, R.string.server_not_avaiable, false);
                 mProgress.dismiss();
             }
 
@@ -146,15 +137,6 @@ public class TicketActivity extends BaseActivity {
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);
         typeOfFirstTicket.setText("类型 : " + ticketResult.getUserType());
-    }
-    private void showTips(int msg, boolean isLong) {
-        Toast tTips;
-        if (isLong) {
-            tTips = Toast.makeText(TicketActivity.this, msg, Toast.LENGTH_LONG);
-        } else {
-            tTips = Toast.makeText(TicketActivity.this, msg, Toast.LENGTH_SHORT);
-        }
-        tTips.show();
     }
 
 }

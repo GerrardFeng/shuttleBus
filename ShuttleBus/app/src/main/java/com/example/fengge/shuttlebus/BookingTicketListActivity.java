@@ -1,23 +1,18 @@
 package com.example.fengge.shuttlebus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ShuttleConstants;
 import com.example.dto.RouteInfo;
 import com.example.dto.Station;
 import com.example.jason.FastJasonTools;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
@@ -96,7 +91,7 @@ public class BookingTicketListActivity extends BaseActivity {
         initView();
         initEvent();
         if(list.size() == 0) {
-            Toast.makeText(getApplicationContext(), "没有路线经过此站点，请重新选择!", Toast.LENGTH_SHORT);
+            showTips(BookingTicketListActivity.this, R.string.sorry_no_station, false);
         }
     }
 

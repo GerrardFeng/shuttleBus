@@ -1,7 +1,6 @@
 package com.example.fengge.shuttlebus;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,13 +12,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.ShuttleConstants;
 import com.example.dto.BusUser;
 import com.example.dto.LoginAuthenticationResult;
 import com.example.jason.FastJasonTools;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
@@ -81,7 +78,7 @@ public class LoginActivity extends BaseActivity {
             String domainId = userEdit.getText().toString();
             String pwd = pwdEdit.getText().toString();
             if (isUserInputHasEmpty(domainId, pwd)) {
-                showTips(R.string.account_has_empty, false);
+                showTips(LoginActivity.this, R.string.account_has_empty, false);
                 return;
             }
             mProgress = new ProgressDialog(LoginActivity.this);
@@ -110,7 +107,7 @@ public class LoginActivity extends BaseActivity {
                     Intent loginSuceed = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(loginSuceed);
                 } else {
-                    showTips(R.string.account_error, false);
+                    showTips(LoginActivity.this, R.string.account_error, false);
                 }
                 if (mProgress != null){
                     mProgress.dismiss();
@@ -120,7 +117,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                showTips(R.string.server_not_avaiable, false);
+                showTips(LoginActivity.this, R.string.server_not_avaiable, false);
                 mProgress.dismiss();
             }
 
@@ -134,17 +131,6 @@ public class LoginActivity extends BaseActivity {
     private boolean isUserInputHasEmpty(String domainid, String pwd) {
         return TextUtils.isEmpty(domainid) || TextUtils.isEmpty(pwd);
     }
-
-    private void showTips(int msg, boolean isLong) {
-        Toast tTips;
-        if (isLong) {
-            tTips = Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG);
-        } else {
-            tTips = Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT);
-        }
-        tTips.show();
-    }
-
 
     private void processSettingForLogin() {
         rememberPwdCb = (CheckBox)findViewById(R.id.remember_pwd);

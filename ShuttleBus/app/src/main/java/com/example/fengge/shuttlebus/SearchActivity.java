@@ -1,30 +1,24 @@
 package com.example.fengge.shuttlebus;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.example.ShuttleConstants;
-import com.example.dto.LoginAuthenticationResult;
 import com.example.dto.RouteInfo;
 import com.example.jason.FastJasonTools;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
-import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -154,14 +148,14 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Toast.makeText(SearchActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+                showTips(SearchActivity.this, R.string.server_not_avaiable, false);
                 mProgress.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(SearchActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+                showTips(SearchActivity.this, R.string.server_not_avaiable, false);
             }
         });
     }

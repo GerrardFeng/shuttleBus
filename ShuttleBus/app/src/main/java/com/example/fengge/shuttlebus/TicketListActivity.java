@@ -1,23 +1,13 @@
 package com.example.fengge.shuttlebus;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ShuttleConstants;
 import com.example.dto.TicketResult;
@@ -33,7 +23,6 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +58,7 @@ public class TicketListActivity extends BaseActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                showTips(R.string.server_not_avaiable, false);
+                showTips(TicketListActivity.this, R.string.server_not_avaiable, false);
             }
 
             @Override
@@ -79,16 +68,6 @@ public class TicketListActivity extends BaseActivity {
         });
 
         List<HashMap<String, String>> ticketData = initTicketData();
-    }
-
-    private void showTips(int msg, boolean isLong) {
-        Toast tTips;
-        if (isLong) {
-            tTips = Toast.makeText(TicketListActivity.this, msg, Toast.LENGTH_LONG);
-        } else {
-            tTips = Toast.makeText(TicketListActivity.this, msg, Toast.LENGTH_SHORT);
-        }
-        tTips.show();
     }
 
     private List<HashMap<String, String>> initTicketData() {

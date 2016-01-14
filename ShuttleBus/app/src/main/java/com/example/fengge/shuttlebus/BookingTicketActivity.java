@@ -1,11 +1,9 @@
 package com.example.fengge.shuttlebus;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,10 +13,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ShuttleConstants;
-import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.utils.CustomProgressDialog;
@@ -27,12 +23,10 @@ import com.utils.PropertiesUtil;
 import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,6 +134,10 @@ public class BookingTicketActivity extends BaseActivity {
                 Intent intent = new Intent(BookingTicketActivity.this, BookingTicketListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("sourceType", sourceType);
+                if(hasNotSelectedStation() && SourceType.ROUTE.getName().equalsIgnoreCase(sourceType)) {
+                    showTips(BookingTicketActivity.this, R.string.pls_select_station_first, false);
+                    return;
+                }
                 bundle.putString(ShuttleConstants.STATION_ID, selectStationId);
                 bundle.putString("selectDutyType", selectDutyType);
                 intent.putExtras(bundle);
@@ -182,10 +180,17 @@ public class BookingTicketActivity extends BaseActivity {
                 if (result) {
                     submitTicket();
                 } else {
-                    Toast.makeText(getApplicationContext(), "请填入所有信息!", Toast.LENGTH_SHORT);
+                    showTips(BookingTicketActivity.this, R.string.pls_input_manual_info, false);
                 }
             }
         });
+    }
+
+    private boolean hasNotSelectedStation () {
+        if(selectStationId == null || selectStationId.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     private void submitTicket() {
@@ -204,7 +209,7 @@ public class BookingTicketActivity extends BaseActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
                 super.onSuccess(statusCode, headers, object);
                 resetBookingTicketData();
-                Toast.makeText(getApplicationContext(), "成功了!", Toast.LENGTH_LONG);
+                showTips(BookingTicketActivity.this, R.string.register_success, false);
                 dialog.hide();
 
                 Intent intent = new Intent(BookingTicketActivity.this, UserInfoActivity.class);
@@ -215,7 +220,7 @@ public class BookingTicketActivity extends BaseActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject object) {
                 super.onFailure(statusCode, headers, throwable, object);
                 dialog.hide();
-                Toast.makeText(getApplicationContext(), "失败了!", Toast.LENGTH_LONG);
+                showTips(BookingTicketActivity.this, R.string.operation_failure, false);
             }
         });
 
