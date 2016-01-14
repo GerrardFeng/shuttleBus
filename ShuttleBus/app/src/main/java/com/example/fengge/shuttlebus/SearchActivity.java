@@ -17,6 +17,7 @@ import com.example.dto.RouteInfo;
 import com.example.jason.FastJasonTools;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.utils.CustomProgressDialog;
 import com.utils.HttpUtil;
 import com.utils.PropertiesUtil;
 
@@ -47,19 +48,12 @@ public class SearchActivity extends BaseActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        initProgressDialog();
 
         List<HashMap<String, Object>> dateData = initDateData(year, month, day);
         initModifyDateListViewEvent(dateData);
         List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
         initSearchListViewEvent(searchData);
         getBusVacancy (year, month, day);
-    }
-
-    private void initProgressDialog(){
-        mProgress = new ProgressDialog(SearchActivity.this);
-        mProgress.setTitle(R.string.check_loading);
-        mProgress.setMessage(getResources().getString(R.string.please_wait));
     }
 
     private List<HashMap<String, Object>> initSearchData(List<RouteInfo> currentRouteList) {
@@ -132,7 +126,9 @@ public class SearchActivity extends BaseActivity {
 
         RequestParams params = new RequestParams();
         params.put(ShuttleConstants.SEARCH_DATE, searchDate);
-        mProgress.show();
+        final CustomProgressDialog progressDialog = new CustomProgressDialog(SearchActivity.this);
+        progressDialog.show();
+
         HttpUtil.get(PropertiesUtil.getPropertiesURL(SearchActivity.this, ShuttleConstants.URL_BUS_VACANCY), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray object) {
@@ -141,20 +137,21 @@ public class SearchActivity extends BaseActivity {
                 currentRouteList = FastJasonTools.getParseBeanArray(object.toString(), RouteInfo.class);
                 List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
                 initSearchListViewEvent(searchData);
-                mProgress.dismiss();
+                progressDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showTips(SearchActivity.this, R.string.server_not_avaiable, false);
-                mProgress.dismiss();
+                progressDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 showTips(SearchActivity.this, R.string.server_not_avaiable, false);
+                progressDialog.show();
             }
         });
     }
