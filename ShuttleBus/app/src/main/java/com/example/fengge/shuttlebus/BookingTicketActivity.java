@@ -213,7 +213,7 @@ public class BookingTicketActivity extends BaseActivity {
                 resetBookingTicketData();
                 showTips(BookingTicketActivity.this, R.string.register_success, false);
                 dialog.hide();
-                startActivity(intent);
+                startActivity(new Intent(BookingTicketActivity.this, MainActivity.class));
             }
 
             @Override
