@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -22,12 +23,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.ShuttleConstants;
-import com.example.dto.LoginAuthenticationResult;
-import com.example.fengge.shuttlebus.MainActivity;
 import com.example.fengge.shuttlebus.R;
-import com.example.jason.FastJasonTools;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.gpstracker.GPSTracker;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -56,6 +55,7 @@ public class CaptureActivity extends Activity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	private Button cancelScanButton;
+	private ProgressDialog mProgress;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -88,7 +88,6 @@ public class CaptureActivity extends Activity implements Callback {
 		if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
 			playBeep = false;
 		}
-		initBeepSound();
 		vibrate = true;
 		
 		//quit the scan view
@@ -117,42 +116,35 @@ public class CaptureActivity extends Activity implements Callback {
 		super.onDestroy();
 	}
 
-	private void checkUserInfo (String routeId) {
-		AsyncHttpClient client = new AsyncHttpClient();
+	private void checkScanCodeInfo (String routeId) {
 		RequestParams params = new RequestParams();
-		String domainid = SharePreferenceHelper.getUser(getApplicationContext()).getDomainId();
-		params.put(ShuttleConstants.USER_ID, domainid);
+		GPSTracker gpsTracker = new GPSTracker(CaptureActivity.this);
+		gpsTracker.getLocation();
+		String domainId = SharePreferenceHelper.getDomainid(CaptureActivity.this);
+		params.put(ShuttleConstants.USER_ID, domainId);
 		params.put(ShuttleConstants.ROUTE_ID, routeId);
-		params.put(ShuttleConstants.LONGITUDE, 15);
-		params.put(ShuttleConstants.LATITUDE, 26);
+		params.put(ShuttleConstants.LONGITUDE, gpsTracker.getLongitude());
+		params.put(ShuttleConstants.LATITUDE, gpsTracker.getLatitude());
 		HttpUtil.post(PropertiesUtil.getPropertiesURL(CaptureActivity.this, ShuttleConstants.SCAN_CODE), params, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
 				super.onSuccess(statusCode, headers, object);
-				if(ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(object.toString())){
-					Toast.makeText(getApplicationContext(), object.toString(),Toast.LENGTH_SHORT).show();
-					Intent resultIntent = new Intent();
-					Bundle bundle = new Bundle();
-					bundle.putString("result", "eee");
-
-					resultIntent.putExtras(bundle);
-					CaptureActivity.this.setResult(RESULT_OK, resultIntent);
+				if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(object.toString())) {
+					initBeepSound(true);
+				} else {
+					initBeepSound(false);
 				}
-//				LoginAuthenticationResult currentUser = FastJasonTools.getParseBean(object.toString(), LoginAuthenticationResult.class);
-//				if (ShuttleConstants.LOGIN_SUCCESS.equalsIgnoreCase(currentUser.getStatus())) {
-//					Intent loginSuceed = new Intent(LoginActivity.this, MainActivity.class);
-//					startActivity(loginSuceed);
-//				} else {
-//					showTips(R.string.account_error, false);
-//				}
-//				mProgress.dismiss();
+				mProgress.dismiss();
+				CaptureActivity.this.finish();
 			}
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-//				showTips(R.string.server_not_avaiable, false);
-//				mProgress.dismiss();
+				initBeepSound(false);
+				Toast.makeText(CaptureActivity.this, R.string.server_not_avaiable, Toast.LENGTH_LONG).show();
+				mProgress.dismiss();
+				CaptureActivity.this.finish();
 			}
 
 			@Override
@@ -170,14 +162,12 @@ public class CaptureActivity extends Activity implements Callback {
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		}else {
-//			Intent resultIntent = new Intent();
-//			Bundle bundle = new Bundle();
-//			bundle.putString("result", resultString);
-//			resultIntent.putExtras(bundle);
-//			this.setResult(RESULT_OK, resultIntent);
-			checkUserInfo (resultString);
+			mProgress = new ProgressDialog(CaptureActivity.this);
+            mProgress.setTitle(R.string.check_loading);
+            mProgress.setMessage(getResources().getString(R.string.please_wait));
+            mProgress.show();
+			checkScanCodeInfo(resultString);
 		}
-		CaptureActivity.this.finish();
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {
@@ -228,8 +218,8 @@ public class CaptureActivity extends Activity implements Callback {
 
 	}
 
-	private void initBeepSound() {
-		if (playBeep && mediaPlayer == null) {
+	private void initBeepSound(boolean isPass) {
+		if ( mediaPlayer == null) {
 			// The volume on STREAM_SYSTEM is not adjustable, and users found it
 			// too loud,
 			// so we now play on the music stream.
@@ -237,15 +227,19 @@ public class CaptureActivity extends Activity implements Callback {
 			mediaPlayer = new MediaPlayer();
 			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			mediaPlayer.setOnCompletionListener(beepListener);
+			AssetFileDescriptor file;
+			if(isPass){
+				file = getResources().openRawResourceFd(R.raw.pass);
+			}else{
+				file = getResources().openRawResourceFd(R.raw.fail);
+			}
 
-			AssetFileDescriptor file = getResources().openRawResourceFd(
-					R.raw.beep);
 			try {
 				mediaPlayer.setDataSource(file.getFileDescriptor(),
 						file.getStartOffset(), file.getLength());
 				file.close();
-				mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
 				mediaPlayer.prepare();
+				mediaPlayer.start();
 			} catch (IOException e) {
 				mediaPlayer = null;
 			}
@@ -255,9 +249,6 @@ public class CaptureActivity extends Activity implements Callback {
 	private static final long VIBRATE_DURATION = 200L;
 
 	private void playBeepSoundAndVibrate() {
-		if (playBeep && mediaPlayer != null) {
-			mediaPlayer.start();
-		}
 		if (vibrate) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			vibrator.vibrate(VIBRATE_DURATION);
