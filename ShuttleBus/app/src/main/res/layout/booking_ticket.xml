@@ -8,14 +8,14 @@
 <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
     android:orientation="vertical">
 
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
@@ -31,19 +31,21 @@
             <Button
                 android:id="@+id/on_duty"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_marginRight="0px"
-                android:textSize="24sp"
+                android:textSize="20dp"
+                android:layout_gravity="center"
                 android:text="上班" />
 
             <Button
                 android:id="@+id/off_duty"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginLeft="0px"
                 android:layout_weight="1"
-                android:textSize="24sp"
+                android:layout_gravity="center"
+                android:textSize="20dp"
                 android:text="下班" />
             <TextView
                 android:layout_weight="10"
@@ -70,7 +72,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp">
 
         <RadioGroup
             android:id="@+id/ticket_type"
@@ -90,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="临时预定(有效期为当天)" />
+                android:text="临时预定(有效期为一天)" />
 
         </RadioGroup>
     </LinearLayout>
@@ -98,7 +101,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -112,17 +115,16 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/gen_ticket"
-            android:layout_width="110dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:background="#be573f"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/booking_ticket_btn"
             android:text="生成Ticket"
             android:textColor="@android:color/white" />
     </LinearLayout>

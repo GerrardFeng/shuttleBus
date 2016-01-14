@@ -49,8 +49,6 @@ public class BookingTicketActivity extends BaseActivity {
 
     private String selectStationId;
     private String selectRouteId;
-    private String selectDate;
-    private String selectTicketType;
     private String selectDutyType;
 
     private List<HashMap<String, Object>> routeList = new ArrayList<HashMap<String, Object>>();
@@ -108,6 +106,7 @@ public class BookingTicketActivity extends BaseActivity {
 
         radioGroup = (RadioGroup) this.findViewById(R.id.ticket_type);
         temporaryRadioButton = (RadioButton) this.findViewById(R.id.temporary);
+        temporaryRadioButton.setChecked(true);
         genTicketButton = (Button) this.findViewById(R.id.gen_ticket);
     }
 
@@ -166,10 +165,8 @@ public class BookingTicketActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.regular) {
                     timeListView.setVisibility(View.INVISIBLE);
-                    selectTicketType = ShuttleConstants.TICKET_TYPE_LONGTIME;
                 } else {
                     timeListView.setVisibility(View.VISIBLE);
-                    selectTicketType = ShuttleConstants.TICKET_TYPE_TEMP;
                 }
             }
         });
@@ -198,9 +195,14 @@ public class BookingTicketActivity extends BaseActivity {
         params.put("userid", SharePreferenceHelper.getUser(getApplicationContext()).getId());
         params.put("routeid", Integer.valueOf(selectRouteId));
         params.put("stationid", Integer.valueOf(selectStationId));
-        params.put("type", selectTicketType);
-        params.put("ridingdate", selectDate);
+        if (radioGroup.getCheckedRadioButtonId() == R.id.regular) {
+            params.put("type", ShuttleConstants.TICKET_TYPE_LONGTIME);
         //TODO progross
+        } else {
+            params.put("type", ShuttleConstants.TICKET_TYPE_TEMP);
+        }
+        HashMap<String, String> dateMap = (HashMap<String, String>) timeListView.getItemAtPosition(0);
+        params.put("ridingdate", dateMap.get("value"));
 
         final CustomProgressDialog dialog = new CustomProgressDialog(BookingTicketActivity.this);
         dialog.show();
@@ -211,8 +213,6 @@ public class BookingTicketActivity extends BaseActivity {
                 resetBookingTicketData();
                 showTips(BookingTicketActivity.this, R.string.register_success, false);
                 dialog.hide();
-
-                Intent intent = new Intent(BookingTicketActivity.this, UserInfoActivity.class);
                 startActivity(intent);
             }
 
@@ -237,13 +237,12 @@ public class BookingTicketActivity extends BaseActivity {
     }
 
     private String parseDate(int year, int monthOfYear, int dayOfMonth) {
-        selectDate = new StringBuffer("").append(year).append("-").append(monthOfYear).append("-").append(dayOfMonth).toString();
-        return selectDate;
+        return new StringBuffer("").append(year).append("-").append(monthOfYear).append("-").append(dayOfMonth).toString();
     }
 
     private void clickOnDutyButton() {
         onDutyButton.setTextColor(Color.WHITE);
-        onDutyButton.setBackgroundColor(Color.GRAY);
+        onDutyButton.setBackgroundColor(getResources().getColor(R.color.orange));
         offDutyButton.setTextColor(Color.BLACK);
         offDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();
@@ -252,7 +251,7 @@ public class BookingTicketActivity extends BaseActivity {
 
     private void clickOffDutyButton() {
         offDutyButton.setTextColor(Color.WHITE);
-        offDutyButton.setBackgroundColor(Color.GRAY);
+        offDutyButton.setBackgroundColor(getResources().getColor(R.color.orange));
         onDutyButton.setTextColor(Color.BLACK);
         onDutyButton.setBackgroundColor(Color.WHITE);
         resetBookingTicketData();

@@ -61,6 +61,7 @@
     <string name="date_picker_title">选择有效日期</string>
     <string name="check_loading">Checking in...</string>
     <string name="has_not_ticket">您还没有登车凭证，请先登记。</string>
+    <string name="back">&lt;返回</string>
 
     <string name="register_success">恭喜您登记成功！</string>
     <string name="pls_input_manual_info">请先输入登记信息！</string>

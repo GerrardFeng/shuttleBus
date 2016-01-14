@@ -35,7 +35,7 @@ public class BookingTicketListActivity extends BaseActivity {
     private List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
     private ListView listView;
     private TextView textView;
-    private Button backArrowButton;
+    private TextView backTextView;
 
 
     private Intent intent;
@@ -60,7 +60,12 @@ public class BookingTicketListActivity extends BaseActivity {
 
         if (SourceType.ROUTE.getName().equals(sourceType)) {
             String stationId = (String) bundle.get(ShuttleConstants.STATION_ID);
-            initRouteList(stationId);
+            if(stationId == null || stationId.isEmpty()){
+                initView();
+                initEvent();
+            } else {
+                initRouteList(stationId);
+            }
         }
         if (SourceType.STOP.getName().equals(sourceType)) {
             initStationList();
@@ -160,7 +165,7 @@ public class BookingTicketListActivity extends BaseActivity {
         }, new int[]{R.id.route_icon, R.id.name});
         listView.setAdapter(adapter);
 
-        backArrowButton = (Button) this.findViewById(R.id.back_arrow_icon);
+        backTextView = (TextView) this.findViewById(R.id.back);
     }
 
 
@@ -180,7 +185,7 @@ public class BookingTicketListActivity extends BaseActivity {
                 finish();
             }
         });
-        backArrowButton.setOnClickListener(new View.OnClickListener() {
+        backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -188,27 +193,4 @@ public class BookingTicketListActivity extends BaseActivity {
         });
     }
 
-
-    private void createData() {
-        HashMap<String, Object> item = new HashMap<String, Object>();
-        item.put("route_icon", R.drawable.bus_icon);
-        item.put("id", 1);
-        item.put("name", "唐家");
-        item.put("arrow_icon", R.drawable.bus_icon);
-        list.add(item);
-
-        HashMap<String, Object> item1 = new HashMap<String, Object>();
-        item1.put("route_icon", R.drawable.bus_icon);
-        item1.put("id", 3);
-        item1.put("name", "金鼎");
-        item1.put("arrow_icon", R.drawable.bus_icon);
-        list.add(item1);
-
-        HashMap<String, Object> item2 = new HashMap<String, Object>();
-        item2.put("route_icon", R.drawable.bus_icon);
-        item2.put("id", 5);
-        item2.put("name", "拱北");
-        item2.put("arrow_icon", R.drawable.bus_icon);
-        list.add(item2);
-    }
 }
