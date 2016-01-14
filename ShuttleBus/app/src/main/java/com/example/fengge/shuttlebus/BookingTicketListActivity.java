@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
@@ -39,6 +40,9 @@ public class BookingTicketListActivity extends BaseActivity {
     private List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
     private ListView listView;
     private TextView textView;
+    private Button backArrowButton;
+
+
     private Intent intent;
     private String sourceType;
     private String dutyType;
@@ -160,6 +164,8 @@ public class BookingTicketListActivity extends BaseActivity {
         adapter = new SimpleAdapter(this, list, R.layout.booking_list_item, new String[]{"route_icon", "name"
         }, new int[]{R.id.route_icon, R.id.name});
         listView.setAdapter(adapter);
+
+        backArrowButton = (Button) this.findViewById(R.id.back_arrow_icon);
     }
 
 
@@ -176,6 +182,12 @@ public class BookingTicketListActivity extends BaseActivity {
                 intent.putExtra(ShuttleConstants.SOURCE_TYPE, sourceType);
                 intent.putExtra("name", name);
                 setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        backArrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
