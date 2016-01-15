@@ -5,6 +5,35 @@
     android:orientation="vertical">
     >
 
+    <include layout="@layout/title_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        >
+
+        <TextView
+            android:id="@+id/routeType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18dp"
+            android:text="您的乘车凭证"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+
+            />
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />
+
+    </RelativeLayout>
+
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scroll"
@@ -22,34 +51,6 @@
         android:background="#ffffff"
         android:orientation="vertical" >
         
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            >
-
-            <TextView
-                android:id="@+id/routeType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="18dp"
-                android:text="Ticket 列表"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-
-                />
-            <ImageButton
-                android:id="@+id/button2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                />
-
-        </RelativeLayout>
-
-
-
         <LinearLayout
             android:id="@+id/ticketListLayout"
             android:layout_width="fill_parent"
