@@ -20,17 +20,17 @@
                 android:id="@+id/route_type"
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:text="@string/route_type"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_vertical"/>
             <TextView
                 android:id="@+id/vacant_site"
                 android:layout_height="wrap_content"
                 android:layout_width="1dip"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:text="@string/vacant_site"/>
 
         </TableRow>
