@@ -118,16 +118,22 @@ public class TicketActivity extends BaseActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                showTips(TicketActivity.this, R.string.server_not_avaiable, false);
+                if(statusCode == 200){
+                    showTips(TicketActivity.this, R.string.has_not_ticket, false);
+                }else{
+                    showTips(TicketActivity.this, R.string.server_not_avaiable, false);
+                }
                 Log.v("HUSTZW", "TicketActivity -onFailure 1");
                 progressDialog.hide();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                showTips(TicketActivity.this, R.string.server_not_avaiable, false);
+                if(statusCode == 200){
+                    showTips(TicketActivity.this, R.string.has_not_ticket, false);
+                }else{
+                    showTips(TicketActivity.this, R.string.server_not_avaiable, false);
+                }
                 Log.v("HUSTZW", "TicketActivity -onFailure 3");
                 progressDialog.hide();
             }
