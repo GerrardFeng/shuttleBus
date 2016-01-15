@@ -13,6 +13,7 @@ import com.example.dto.BusUser;
 import com.example.dto.CommonResult;
 import com.example.dto.TicketResult;
 import com.example.jason.FastJasonTools;
+import com.gpstracker.GPSTracker;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
  */
 public class TicketActivity extends BaseActivity {
 
+    private Long ticketId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +54,12 @@ public class TicketActivity extends BaseActivity {
     private void doCheckIn (final CircularProgressButton circularButton1) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-
+        GPSTracker gpsTracker = new GPSTracker(TicketActivity.this);
+        gpsTracker.getLocation();
         //TODO getValue
-        String ticketId = "4";
-        String longitude = "23.5654";
-        String latitude = "24.5365";
         params.put(ShuttleConstants.TICKET_ID, ticketId);
-        params.put(ShuttleConstants.LONGITUDE, longitude);
-        params.put(ShuttleConstants.LATITUDE, latitude);
+        params.put(ShuttleConstants.LONGITUDE, gpsTracker.getLongitude());
+        params.put(ShuttleConstants.LATITUDE, gpsTracker.getLatitude());
         circularButton1.setProgress(50);
 
         HttpUtil.post(PropertiesUtil.getPropertiesURL(TicketActivity.this, ShuttleConstants.URL_CHECK_IN), params, new JsonHttpResponseHandler() {
@@ -139,6 +139,7 @@ public class TicketActivity extends BaseActivity {
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);
         typeOfFirstTicket.setText("类型 : " + ticketResult.getUserType());
+        ticketId = ticketResult.getTicketId();
     }
 
 }

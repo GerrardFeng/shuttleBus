@@ -24,7 +24,6 @@
            android:layout_height="wrap_content"
            android:layout_gravity="center_horizontal"
            android:textSize="150dp"
-           android:text="8"
            android:textColor="@color/share_text"/>
         <TextView
             android:id="@+id/routeOfFirstTicket"
