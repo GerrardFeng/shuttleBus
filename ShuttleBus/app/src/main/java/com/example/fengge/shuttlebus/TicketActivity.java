@@ -34,7 +34,7 @@ import static com.example.fengge.shuttlebus.R.color.orange;
  */
 public class TicketActivity extends BaseActivity {
 
-    private Long ticketId;
+    private Long ticketId = 0L;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,11 @@ public class TicketActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (circularButton1.getProgress() == 0) {
-                    doCheckIn(circularButton1);
+                    if(ticketId == 0L){
+                        showTips(TicketActivity.this, R.string.has_not_ticket, false);
+                    }else{
+                        doCheckIn(circularButton1);
+                    }
                 }
             }
         });
@@ -150,7 +154,7 @@ public class TicketActivity extends BaseActivity {
         TextView stopOfFirstTicket = (TextView)findViewById(R.id.stopOfFirstTicket);
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);
-        typeOfFirstTicket.setText("类型 : " + ticketResult.getUserType());
+        typeOfFirstTicket.setText("类型 : " + (ShuttleConstants.TICKET_TYPE_TEMP.equals(ticketResult.getTicketType()) ? "临时有效" : "长期有效"));
         ticketId = ticketResult.getTicketId();
     }
 
