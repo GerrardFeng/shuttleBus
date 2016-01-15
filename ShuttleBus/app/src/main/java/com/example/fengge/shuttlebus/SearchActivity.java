@@ -102,7 +102,7 @@ public class SearchActivity extends BaseActivity {
             ListView listView = (ListView) parent;
             HashMap<String, Object> data = (HashMap<String, Object>) listView.getItemAtPosition(position);
 
-            new DatePickerDialog(SearchActivity.this, new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog dateDialog = new DatePickerDialog(SearchActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker dateView, int currentYear, int currentMonth, int currentDay) {
                     List<HashMap<String, Object>> dateData = initDateData(currentYear, currentMonth + 1, currentDay);
@@ -110,7 +110,9 @@ public class SearchActivity extends BaseActivity {
                     getBusVacancy(currentYear, currentMonth + 1, currentDay);
 
                 }
-            },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ).show();
+            },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+            dateDialog.setTitle(R.string.date_picker_title_serarch);
+            dateDialog.show();
 
 
         }
