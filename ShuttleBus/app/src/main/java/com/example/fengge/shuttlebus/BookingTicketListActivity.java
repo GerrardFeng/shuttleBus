@@ -113,7 +113,8 @@ public class BookingTicketListActivity extends BaseActivity {
                     try {
                         jsonObject = (JSONObject) object.get(i);
                         station.setId((int) jsonObject.get("id"));
-                        station.setName((String) jsonObject.get("name"));
+
+                        station.setName(jsonObject.get("name").toString());
                         stations.add(station);
                     } catch (JSONException e) {
                         e.printStackTrace();
