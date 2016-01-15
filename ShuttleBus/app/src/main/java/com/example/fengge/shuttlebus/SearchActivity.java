@@ -53,7 +53,7 @@ public class SearchActivity extends BaseActivity {
         initModifyDateListViewEvent(dateData);
         List<HashMap<String, Object>> searchData = initSearchData(currentRouteList);
         initSearchListViewEvent(searchData);
-        getBusVacancy (year, month, day);
+        getBusVacancy(year, month, day);
     }
 
     private List<HashMap<String, Object>> initSearchData(List<RouteInfo> currentRouteList) {
@@ -61,7 +61,7 @@ public class SearchActivity extends BaseActivity {
         if(currentRouteList.size() > 0){
             for(RouteInfo routeInfo : currentRouteList) {
                 HashMap<String, Object> item = new HashMap<String, Object>();
-                item.put("route", "上班路线：" + routeInfo.getName());
+                item.put("route", (ShuttleConstants.ON_DUTY.equalsIgnoreCase(routeInfo.getType()) ? "上班" : "下班") + "路线：" + routeInfo.getName());
                 item.put("vacant_site", "剩余空位：" + routeInfo.getBalance());
                 dataList.add(item);
             }
