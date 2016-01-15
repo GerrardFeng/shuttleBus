@@ -136,9 +136,9 @@ public class TicketListActivity extends BaseActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             llp.setMargins(5, 0, 5, 10);
             textView1.setLayoutParams(llp);
-            textView1.setText("路线： " + (ticket.getRouteType() == "on" ? "上班 " : "下班 ") + ticket.getRoute() + "\n" +
+            textView1.setText("路线： " + ("on".equals(ticket.getRouteType())? "上班 " : "下班 ") + ticket.getRoute() + "\n" +
                     "站点： " + ticket.getStation() + "\n" +
-                    "类型： " + (ticket.getTicketType() == "longtime" ? "长期预定" : ("临时预定 (" + ticket.getTempRidingDate() + ")")));
+                    "类型： " + ("longtime".equals(ticket.getTicketType()) ? "长期预定" : ("临时预定 (" + ticket.getTempRidingDate() + ")")));
             textView1.setBackgroundResource(R.drawable.shape);
             linearLayout.addView(textView1);
         }
