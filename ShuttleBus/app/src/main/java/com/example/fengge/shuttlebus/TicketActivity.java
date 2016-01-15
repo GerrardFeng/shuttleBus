@@ -132,7 +132,7 @@ public class TicketActivity extends BaseActivity {
     }
     private void renderTicket(TicketResult ticketResult){
         TextView routeOfFirstTicket = (TextView)findViewById(R.id.routeOfFirstTicket);
-        routeOfFirstTicket.setText("路线 : " + (ticketResult.getRouteType() == ShuttleConstants.ON_DUTY ? "上班" : "下班"));
+        routeOfFirstTicket.setText("路线 : " + (ShuttleConstants.ON_DUTY.equals(ticketResult.getRouteType()) ? "上班" : "下班"));
         TextView routeNumber = (TextView)findViewById(R.id.bus_number_icon);
         routeNumber.setText(ticketResult.getRoute());
         TextView stopOfFirstTicket = (TextView)findViewById(R.id.stopOfFirstTicket);
