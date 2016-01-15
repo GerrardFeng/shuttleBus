@@ -2,6 +2,7 @@ package com.example.fengge.shuttlebus;
 
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.utils.SharePreferenceHelper;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static com.example.fengge.shuttlebus.R.color.orange;
 
 /**
  * Created by WURY on 1/12/2016.
@@ -135,6 +138,9 @@ public class TicketActivity extends BaseActivity {
         routeOfFirstTicket.setText("路线 : " + (ShuttleConstants.ON_DUTY.equals(ticketResult.getRouteType()) ? "上班" : "下班"));
         TextView routeNumber = (TextView)findViewById(R.id.bus_number_icon);
         routeNumber.setText(ticketResult.getRoute());
+        if(ShuttleConstants.OFF_DUTY.equals(ticketResult.getRouteType())){
+            routeNumber.setTextColor(Color.BLACK);
+        }
         TextView stopOfFirstTicket = (TextView)findViewById(R.id.stopOfFirstTicket);
         stopOfFirstTicket.setText("站点 : " + ticketResult.getStation());
         TextView typeOfFirstTicket = (TextView)findViewById(R.id.typeOfFirstTicket);
