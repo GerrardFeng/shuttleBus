@@ -137,6 +137,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         });
 
         tabHost.setCurrentTab(0);
+        processTabChanged("Home");
 
     }
 
@@ -191,9 +192,11 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
     private void clearTabBackgroundColor() {
         int tabCount = tabHost.getTabWidget().getTabCount();
+
+        FontAwesomeIcons[] iconses = new FontAwesomeIcons[]{FontAwesomeIcons.fa_home, FontAwesomeIcons.fa_tasks, FontAwesomeIcons.fa_search, FontAwesomeIcons.fa_user};
         for (int i = 0; i < tabCount; i++) {
             ImageView icon = (ImageView)tabHost.getTabWidget().getChildTabViewAt(i).findViewById(R.id.icon);
-            icon.setImageDrawable(new IconDrawable(this, FontAwesomeIcons.fa_home)
+            icon.setImageDrawable(new IconDrawable(this, iconses[i])
                     .colorRes(android.R.color.white)
                     .actionBarSize());
             TextView title = (TextView) tabHost.getTabWidget().getChildTabViewAt(i).findViewById(R.id.title);
