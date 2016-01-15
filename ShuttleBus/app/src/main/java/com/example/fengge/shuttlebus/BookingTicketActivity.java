@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ShuttleConstants;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -23,6 +24,7 @@ import com.utils.PropertiesUtil;
 import com.utils.SharePreferenceHelper;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -209,11 +211,20 @@ public class BookingTicketActivity extends BaseActivity {
         HttpUtil.post(PropertiesUtil.getPropertiesURL(BookingTicketActivity.this, ShuttleConstants.URL_GEN_TICKET), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
-                super.onSuccess(statusCode, headers, object);
-                resetBookingTicketData();
-                showTips(BookingTicketActivity.this, R.string.register_success, false);
-                dialog.hide();
-                startActivity(new Intent(BookingTicketActivity.this, MainActivity.class));
+                try {
+                    String status = object.getString("status");
+                    if (ShuttleConstants.LOGIN_SUCCESS.equals(status) ) {
+                        resetBookingTicketData();
+                        showTips(BookingTicketActivity.this, R.string.register_success, false);
+                        dialog.hide();
+                        startActivity(new Intent(BookingTicketActivity.this, MainActivity.class));
+                    } else {
+                        dialog.hide();
+                        showTips(BookingTicketActivity.this, R.string.lack_of_seat, false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
