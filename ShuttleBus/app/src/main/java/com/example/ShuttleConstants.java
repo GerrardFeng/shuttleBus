@@ -41,6 +41,8 @@ public class ShuttleConstants {
 
     public static String ROUTE_ID = "routeid";
 
+    public static String ROUTE_NAME = "routename";
+
     public static String LONGITUDE = "longitude";
 
     public static String LATITUDE = "latitude";

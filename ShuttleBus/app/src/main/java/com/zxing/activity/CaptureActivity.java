@@ -125,7 +125,7 @@ public class CaptureActivity extends Activity implements Callback {
 		gpsTracker.getLocation();
 		String userId = SharePreferenceHelper.getUser(CaptureActivity.this).getId();
 		params.put(ShuttleConstants.USER_ID, userId);
-		params.put(ShuttleConstants.ROUTE_ID, routeName);
+		params.put(ShuttleConstants.ROUTE_NAME, routeName);
 		params.put(ShuttleConstants.LONGITUDE, gpsTracker.getLongitude());
 		params.put(ShuttleConstants.LATITUDE, gpsTracker.getLatitude());
 		HttpUtil.post(PropertiesUtil.getPropertiesURL(CaptureActivity.this, ShuttleConstants.SCAN_CODE), params, new JsonHttpResponseHandler() {
